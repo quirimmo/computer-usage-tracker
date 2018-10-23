@@ -1,0 +1,3 @@
+Find a way for running the server even when developing only the frontend
+Implement full flow of redux with ng-redux-store with async calls, async functions returned etc
+use typescript in the electron app too with ts

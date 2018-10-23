@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
+import { UserActions } from './users/actions';
+import { select } from '@angular-redux/store';
+import { User } from './users/model';
+import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'app-root',
@@ -9,7 +13,15 @@ import { ElectronService } from 'ngx-electron';
 export class AppComponent {
 	title = 'app';
 
-	constructor(private _electronService: ElectronService) {
+	@select(['users'])
+	readonly users$: Observable<User[]>;
+
+	constructor(
+		private _electronService: ElectronService,
+		private actions: UserActions
+	) {
+		this.actions.fetchUsers();
+		this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
 		if (this._electronService.isElectronApp) {
 			this._electronService.ipcRenderer.on('pong', (event, arg) => {
 				console.log(

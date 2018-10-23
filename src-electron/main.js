@@ -6,35 +6,24 @@ db.users = new Datastore({
 	autoload: true
 });
 
-var scott = {
-	name: 'Scott',
-	twitter: '@ScottWRobinson'
-};
+// const firstUser = { firstName: 'Quirino' };
+// const secondUser = { firstName: 'Pelota' };
+// const people = [];
+// people.push(firstUser, secondUser);
+// db.users.insert(people, onInsert);
 
-db.users.insert(scott, function(err, doc) {
-	console.log('Inserted', doc.name, 'with ID', doc._id);
-});
+// function onInsert(err, rows) {
+// 	if (err) {
+// 		throw new Error(err);
+// 	}
+// 	console.log('items inserted correctly');
+// }
 
-var people = [];
-
-var elon = {
-	name: 'Elon Musk',
-	age: 44,
-	twitter: '@elonmusk'
-};
-
-var jack = {
-	name: 'Jack Dorsey',
-	age: 39,
-	twitter: '@jack'
-};
-
-people.push(scott, elon, jack);
-
-db.users.insert(people, function(err, docs) {
-	docs.forEach(function(d) {
-		console.log('Saved user:', d.name);
-	});
+db.users.find({}, function(err, docs) {
+	if (err) {
+		throw new Error(err);
+	}
+	docs.forEach(user => console.log('User:', user));
 });
 
 // =========================================================================================
