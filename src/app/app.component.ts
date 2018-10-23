@@ -10,9 +10,15 @@ export class AppComponent {
 	title = 'app';
 
 	constructor(private _electronService: ElectronService) {
-		this._electronService.ipcRenderer.on('pong', (event, arg) => {
-			console.log('RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP', event, arg);
-		});
+		if (this._electronService.isElectronApp) {
+			this._electronService.ipcRenderer.on('pong', (event, arg) => {
+				console.log(
+					'RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP',
+					event,
+					arg
+				);
+			});
+		}
 	}
 
 	sendClick(): void {

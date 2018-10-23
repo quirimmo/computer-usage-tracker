@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const devtron = require('devtron');
 
 let win;
 
@@ -17,7 +18,8 @@ function createWindow() {
 
 	win.loadURL(`file://${__dirname}/../dist/computer-usage-tracker/index.html`);
 
-	//// uncomment below to open the DevTools.
+	// uncomment below to open the DevTools.
+	devtron.install();
 	win.webContents.openDevTools();
 
 	// Event when the window is closed.
