@@ -12,15 +12,14 @@ import { Observable } from 'rxjs';
 })
 export class AppComponent {
 	title = 'app';
-	@select('users')
+
+	@select(['users'])
 	readonly users$: Observable<User[]>;
 
 	constructor(
 		private _electronService: ElectronService,
 		private actions: UserActions
 	) {
-		this.users$.subscribe(val => console.log('USERS BEFORE FETCH:', val));
-		console.log('fetching...');
 		this.actions.fetchUsers();
 		this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
 		if (this._electronService.isElectronApp) {
