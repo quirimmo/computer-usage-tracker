@@ -29,6 +29,7 @@
 		"bootstrap": "^4.1.3",
 		"core-js": "^2.5.4",
 		"font-awesome": "^4.7.0",
+		"nedb": "^1.8.0",
 		"ngx-electron": "^1.0.4",
 		"redux": "^4.0.1",
 		"redux-thunk": "^2.3.0",
