@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { StoreModule } from './store/module';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routes';
+import { NgxElectronModule } from 'ngx-electron';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -14,7 +15,8 @@ import { AppRoutes } from './app.routes';
 		BrowserModule,
 		NgReduxModule,
 		NgReduxRouterModule.forRoot(),
-		StoreModule
+		StoreModule,
+		NgxElectronModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
