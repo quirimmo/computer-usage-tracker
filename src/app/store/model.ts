@@ -1,4 +1,4 @@
-import { User } from '../models/User';
+import { User } from '../users/model';
 
 export interface StoreModel {
 	users?: User[];
