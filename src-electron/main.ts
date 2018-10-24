@@ -1,8 +1,10 @@
 import { app, BrowserWindow } from 'electron';
 // import * as path from 'path';
 
-console.log('super focca la bidella');
-
+const isDevMode: boolean = process.argv[2].split('--')[1] === 'dev';
+const fileURL: string = isDevMode
+	? 'http://localhost:4200/'
+	: `file://${__dirname}/../dist/computer-usage-tracker/index.html`;
 
 let mainWindow: Electron.BrowserWindow;
 
@@ -15,9 +17,7 @@ function createWindow() {
 
 	// and load the index.html of the app.
 	// mainWindow.loadFile(path.join(__dirname, './../src/index.html'));
-	mainWindow.loadURL(
-		`file://${__dirname}/../dist/computer-usage-tracker/index.html`
-	);
+	mainWindow.loadURL(fileURL);
 
 	// Open the DevTools.
 	mainWindow.webContents.openDevTools();
