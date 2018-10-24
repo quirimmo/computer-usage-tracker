@@ -1,5 +1,5 @@
-import { app, BrowserWindow } from 'electron';
-// import * as path from 'path';
+import { app, BrowserWindow, ipcMain } from 'electron';
+const devtron = require('devtron');
 
 const isDevMode: boolean = process.argv[2].split('--')[1] === 'dev';
 const fileURL: string = isDevMode
@@ -11,8 +11,8 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
 	// Create the browser window.
 	mainWindow = new BrowserWindow({
-		height: 600,
-		width: 800
+		width: 1200,
+		height: 800
 	});
 
 	// and load the index.html of the app.
@@ -20,6 +20,7 @@ function createWindow() {
 	mainWindow.loadURL(fileURL);
 
 	// Open the DevTools.
+	devtron.install();
 	mainWindow.webContents.openDevTools();
 
 	// Emitted when the window is closed.
@@ -51,6 +52,11 @@ app.on('activate', () => {
 	if (mainWindow === null) {
 		createWindow();
 	}
+});
+
+ipcMain.on('ping', (event: any, arg: any) => {
+	console.log('RECEIVED PING FROM ANGULAR APP TO ELECTRON PROCESS', event, arg);
+	event.sender.send('pong', 'yeah yeah yeah');
 });
 
 // In this file you can include the rest of your app"s specific main process
