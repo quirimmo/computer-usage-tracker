@@ -1,0 +1,14 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"module": "commonjs",
+		"noImplicitAny": true,
+		"sourceMap": true,
+		"outDir": "dist-electron",
+		"paths": {
+			"*": ["node_modules/*"]
+		}
+	},
+	"include": ["src-electron/**/*.ts"],
+	"exclude": ["src-electron/**/*.spec.ts"]
+}
