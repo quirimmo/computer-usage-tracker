@@ -1,13 +1,25 @@
 import { DBMSProxy } from './DBMSProxy';
+import { UsersDAO } from './models/UsersDAO';
+import { User } from './models/User';
+import { concat, defer } from 'rxjs';
 
+// DB INTERACTIONS EXAMPLE
+// ==============================
 const dbmsProxy: DBMSProxy = DBMSProxy.getInstance();
-dbmsProxy.createDatastores();
-// const people = [{ firstName: 'Quirino' }, { firstName: 'Fernandiello' }];
-// dbmsProxy.insertDocuments(people, 'users');
+const user1 = new User('quirino');
+const user2 = new User('chopper');
+const users = [user1, user2];
 
-// import { ComputerUsageTrackerDB } from './ComputerUsageTrackerDB';
+const operations = concat(
+	dbmsProxy.createDatastores(),
+	defer(() => UsersDAO.insert(users)),
+	defer(() => UsersDAO.fetch())
+);
+operations.subscribe(onSubscribe);
+function onSubscribe(result: any) {
+	console.log('Finished all: ', result);
+}
 
-// const db = new ComputerUsageTrackerDB();
 
 // import { app, BrowserWindow, ipcMain } from 'electron';
 // const devtron = require('devtron');

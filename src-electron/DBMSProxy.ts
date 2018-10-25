@@ -1,6 +1,6 @@
 import * as Nedb from 'nedb';
-import { USERS_DATASTORE_FULL_NAME } from './constants/DB.constants';
 import { UsersDAO } from './models/UsersDAO';
+import { Subscription, Subject, forkJoin, Observable } from 'rxjs';
 
 export interface IComputerUsageTrackerDB {
 	users?: Nedb;
@@ -19,49 +19,64 @@ export class DBMSProxy {
 		return DBMSProxy.instance;
 	}
 
-	public createDatastores(): void {
-		this.db.users = UsersDAO.createDatastore();
+	public createDatastores(): Observable<string> {
+		const _this: DBMSProxy = this;
+		const subject = new Subject<string>();
+		const subscription: Subscription = UsersDAO.createDatastore().subscribe(
+			onSuccess,
+			onError,
+			onFinally
+		);
+		return subject.asObservable();
+
+		function onSuccess(datastore: Nedb): void {
+			console.log(`USERS Datastore Created Successfully`);
+			_this.db.users = datastore;
+			subject.next('success');
+		}
+
+		function onError(err: string) {
+			subject.error('error');
+			console.error(err);
+		}
+
+		function onFinally() {
+			subject.complete();
+			subscription.unsubscribe();
+		}
 	}
 
-	public onDatastoreCreated(tableName: string): (err: Error) => void {
-		return err => {
+	public insertDocuments(documents: any, datastore: Nedb): Observable<any> {
+		const subject = new Subject<any>();
+		datastore.insert(documents, onInsert);
+		return subject.asObservable();
+
+		function onInsert(err: Error, newDocuments: any) {
 			if (err) {
-				console.log(
-					`Error creating the ${tableName.toUpperCase()} datastore: ${
-						err.name
-					} - ${err.message}`
-				);
+				subject.error(err);
+			} else {
+				// add to the documents to insert the id just created from nedb when inserting the document
+				documents.forEach((document: any, ind: number) => {
+					document.id = newDocuments[ind]._id;
+				});
+				subject.next(documents);
 			}
-			console.log(`${tableName.toUpperCase()} Datastore Created Successfully`);
-		};
+			subject.complete();
+		}
 	}
 
-	// public createDatastore(
-	// 	datastore: string,
-	// 	onLoad: (err: Error) => void
-	// ): void {
-	// 	switch (datastore) {
-	// 		case 'users':
-	// 			this.createUsersDatastore(onLoad);
-	// 			break;
-	// 		default:
-	// 			throw new Error(
-	// 				`The provided datastore ${datastore.toUpperCase()} is not expected`
-	// 			);
-	// 	}
-	// }
+	public fetchDocuments(filters: any, datastore: Nedb): Observable<any> {
+		const subject = new Subject<any>();
+		datastore.find(filters, onFetch);
+		return subject.asObservable();
 
-	// public createUsersDatastore(onLoad: (err: Error) => void): void {
-	// 	this.db.users = new Nedb({
-	// 		filename: USERS_DATASTORE_FULL_NAME,
-	// 		autoload: true,
-	// 		onload: onLoad
-	// 	});
-	// }
-
-	// public insertDocuments(documents: any, datastore: string): void {
-	// 	this.db.users.insert(documents, (err: Error, newDocuments: any) => {
-	// 		console.log('Documents Inserted Correctly');
-	// 	});
-	// }
+		function onFetch(err: Error, documents: any) {
+			if (err) {
+				subject.error(err);
+			} else {
+				subject.next(documents);
+			}
+			subject.complete();
+		}
+	}
 }
