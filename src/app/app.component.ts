@@ -38,7 +38,10 @@ export class AppComponent {
 
 	sendClick(): void {
 		if (this._electronService.isElectronApp) {
-			this._electronService.ipcRenderer.send('ping', 'wow wow wow');
+			this._electronService.ipcRenderer.send(
+				'electron-app-channel',
+				'wow wow wow'
+			);
 		}
 	}
 }

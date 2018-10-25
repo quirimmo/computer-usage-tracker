@@ -5,6 +5,9 @@ import {
 	ELECTRON_APP_PROD_URL
 } from '../constants/Electron.constants';
 import { Observable, Subject } from 'rxjs';
+import { ICommunicationsChannelMessage } from '../models/ICommunicationsChannelMessage';
+import { ElectronAppCommunicator } from '../models/ElectronAppCommunicator';
+import { UserCommunicator } from '../models/UserCommunicator';
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -12,13 +15,15 @@ export class ElectronApp {
 	public mainWindow: MainWindow = null;
 	public isDevMode: boolean;
 	public ipcMain: IpcMain = null;
-	public communicationsChannel: Subject<any>;
+	public communicationsChannel: Subject<ICommunicationsChannelMessage>;
+	public communicators: Map<string, ElectronAppCommunicator>;
 
 	private constructor() {
 		this.isDevMode = process.argv[2].split('--')[1] === 'dev';
 		this.app = app;
 		this.ipcMain = ipcMain;
 		this.communicationsChannel = new Subject<any>();
+		this.communicators = new Map<string, ElectronAppCommunicator>();
 	}
 
 	public static getInstance(): ElectronApp {
@@ -38,9 +43,16 @@ export class ElectronApp {
 	}
 
 	public initCommunicationsChannel(): void {
-		this.ipcMain.on('ping', (event: any, arg: any) => {
-			this.communicationsChannel.next({ event, arg });
-		});
+		this.communicators.set('users', new UserCommunicator());
+		this.ipcMain.on('electron-app-channel', (event: any, arg: any) =>
+			this.communicationsChannel.next({
+				sender: event.sender,
+				message: arg.message,
+				data: arg.data,
+				filters: arg.filters,
+				action: arg.action
+			})
+		);
 	}
 
 	public sendMessageToApp(channel: string, payload: any): void {
@@ -77,7 +89,10 @@ export class ElectronApp {
 	public destroyApp(): void {
 		console.log('Destroying app...');
 		if (process.platform !== 'darwin') {
-			this.communicationsChannel.complete();
+			this.communicators.forEach((communicator: ElectronAppCommunicator) => {
+				communicator.channel.complete();
+				communicator.channel.unsubscribe();
+			});
 			this.communicationsChannel.unsubscribe();
 			app.quit();
 		}
