@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { ICommunicationsChannelMessage } from '../models/ICommunicationsChannelMessage';
 import { ElectronAppCommunicator } from '../models/ElectronAppCommunicator';
 import { UserCommunicator } from '../models/UserCommunicator';
+import { ActivityCommunicator } from '../models/ActivityCommunicator';
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -44,13 +45,15 @@ export class ElectronApp {
 
 	public initCommunicationsChannel(): void {
 		this.communicators.set('users', new UserCommunicator());
+		this.communicators.set('activities', new ActivityCommunicator());
 		this.ipcMain.on('electron-app-channel', (event: any, arg: any) =>
 			this.communicationsChannel.next({
 				sender: event.sender,
 				message: arg.message,
 				data: arg.data,
 				filters: arg.filters,
-				action: arg.action
+				action: arg.action,
+				resource: arg.resource
 			})
 		);
 	}

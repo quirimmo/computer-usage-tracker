@@ -6,4 +6,5 @@ export interface ICommunicationsChannelMessage {
 	filters: any;
 	message: string;
 	data: any;
+	resource: 'users';
 }

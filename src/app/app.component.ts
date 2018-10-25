@@ -36,12 +36,27 @@ export class AppComponent {
 		}
 	}
 
-	sendClick(): void {
+	sendUsersClick(): void {
 		if (this._electronService.isElectronApp) {
-			this._electronService.ipcRenderer.send(
-				'electron-app-channel',
-				'wow wow wow'
-			);
+			this._electronService.ipcRenderer.send('electron-app-channel', {
+				resource: 'users',
+				data: { test: 'customData' },
+				method: 'post',
+				filters: {},
+				message: 'bla bla bla users'
+			});
+		}
+	}
+
+	sendActivitiesClick(): void {
+		if (this._electronService.isElectronApp) {
+			this._electronService.ipcRenderer.send('electron-app-channel', {
+				resource: 'activities',
+				data: { test: 'customData' },
+				method: 'get',
+				filters: {},
+				message: 'bla bla bla activities'
+			});
 		}
 	}
 }
