@@ -21,7 +21,6 @@ export class MainWindow {
 	}
 
 	public onClose(onClose?: () => void): void {
-		console.log('closing window inside main window class');
 		this.browserWindow = null;
 		onClose();
 	}

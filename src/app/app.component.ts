@@ -30,6 +30,9 @@ export class AppComponent {
 					arg
 				);
 			});
+			this._electronService.ipcRenderer.on('ping-pong', (event, arg) => {
+				console.log('RECEIVED DATA FROM ELECTRON TO ANGULAR APP', arg);
+			});
 		}
 	}
 
