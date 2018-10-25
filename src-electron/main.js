@@ -1,31 +1,3 @@
-// NEDB CODE
-var Datastore = require('nedb');
-const db = {};
-db.users = new Datastore({
-	filename: './src-electron/computer-usage-tracker-users.db',
-	autoload: true
-});
-
-// const firstUser = { firstName: 'Quirino' };
-// const secondUser = { firstName: 'Pelota' };
-// const people = [];
-// people.push(firstUser, secondUser);
-// db.users.insert(people, onInsert);
-
-// function onInsert(err, rows) {
-// 	if (err) {
-// 		throw new Error(err);
-// 	}
-// 	console.log('items inserted correctly');
-// }
-
-db.users.find({}, function(err, docs) {
-	if (err) {
-		throw new Error(err);
-	}
-	docs.forEach(user => console.log('User:', user));
-});
-
 // =========================================================================================
 
 // ELECTRON CODE

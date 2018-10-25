@@ -1,33 +1,16 @@
-import { DBMSProxy } from './DBMSProxy';
-import { UsersDAO } from './models/UsersDAO';
-import { User } from './models/User';
-import { concat, defer } from 'rxjs';
+// import { app, BrowserWindow, ipcMain } from 'electron';
+import { ElectronApp } from './services/ElectronApp';
 
-// DB INTERACTIONS EXAMPLE
-// ==============================
-const dbmsProxy: DBMSProxy = DBMSProxy.getInstance();
-const user1 = new User('quirino');
-const user2 = new User('chopper');
-const users = [user1, user2];
+const electronApp = ElectronApp.getInstance();
+electronApp.initApp().subscribe(onSubscribe);
 
-const operations = concat(
-	dbmsProxy.createDatastores(),
-	defer(() => UsersDAO.insert(users)),
-	defer(() => UsersDAO.fetch())
-);
-operations.subscribe(onSubscribe);
-function onSubscribe(result: any) {
-	console.log('Finished all: ', result);
+function onSubscribe() {
+	console.log('THE APP IS READY');
 }
 
+// console.log('APP:', app..isReady());
 
-// import { app, BrowserWindow, ipcMain } from 'electron';
-// const devtron = require('devtron');
-
-// const isDevMode: boolean = process.argv[2].split('--')[1] === 'dev';
-// const fileURL: string = isDevMode
-// 	? 'http://localhost:4200/'
-// 	: `file://${__dirname}/../dist/computer-usage-tracker/index.html`;
+// MainWindow.getInstance();
 
 // let mainWindow: Electron.BrowserWindow;
 
@@ -82,5 +65,5 @@ function onSubscribe(result: any) {
 // 	event.sender.send('pong', 'yeah yeah yeah');
 // });
 
-// // In this file you can include the rest of your app"s specific main process
-// // code. You can also put them in separate files and require them here.
+// In this file you can include the rest of your app"s specific main process
+// code. You can also put them in separate files and require them here.

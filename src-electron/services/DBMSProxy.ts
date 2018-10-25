@@ -1,5 +1,5 @@
 import * as Nedb from 'nedb';
-import { UsersDAO } from './models/UsersDAO';
+import { UsersDAO } from '../models/UsersDAO';
 import { Subscription, Subject, forkJoin, Observable } from 'rxjs';
 
 export interface IComputerUsageTrackerDB {

@@ -8,7 +8,7 @@
 		"paths": {
 			"*": ["node_modules/*"]
 		},
-		"lib": ["es2017"]
+		"lib": ["es2017", "dom"]
 	},
 	"include": ["src-electron/**/*.ts"],
 	"exclude": ["src-electron/**/*.spec.ts"]

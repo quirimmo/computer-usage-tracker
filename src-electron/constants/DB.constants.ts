@@ -1,4 +1,4 @@
-export const DB_SOURCE_FOLDER = './src-electron/';
+export const DB_SOURCE_FOLDER = './src-electron/db/';
 export const DB_BASE_NAME = 'computer-usage-tracker';
 export const DB_EXTENSION = 'db';
 export const USERS_DATASTORE = 'users';
