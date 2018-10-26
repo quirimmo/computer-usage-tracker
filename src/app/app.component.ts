@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { UserActions } from './users/actions';
-import { select } from '@angular-redux/store';
+import { select, dispatch, NgRedux } from '@angular-redux/store';
 import { User } from './users/model';
 import { Observable } from 'rxjs';
+import { ElectronProxy } from './electron-proxy/service';
+import { StoreModel } from './store/model';
 
 @Component({
 	selector: 'app-root',
@@ -18,22 +20,28 @@ export class AppComponent {
 
 	constructor(
 		private _electronService: ElectronService,
-		private actions: UserActions
+		private actions: UserActions,
+		private electronProxy: ElectronProxy,
+		private ngRedux: NgRedux<StoreModel>
 	) {
-		this.actions.fetchUsers();
-		this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
-		if (this._electronService.isElectronApp) {
-			this._electronService.ipcRenderer.on('pong', (event, arg) => {
-				console.log(
-					'RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP',
-					event,
-					arg
-				);
-			});
-			this._electronService.ipcRenderer.on('ping-pong', (event, arg) => {
-				console.log('RECEIVED DATA FROM ELECTRON TO ANGULAR APP', arg);
-			});
-		}
+		this.actions
+			.dispatchFetchUsersThunk()
+			.subscribe()
+			.unsubscribe();
+
+		// this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
+		// if (this._electronService.isElectronApp) {
+		// 	this._electronService.ipcRenderer.on('pong', (event, arg) => {
+		// 		console.log(
+		// 			'RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP',
+		// 			event,
+		// 			arg
+		// 		);
+		// 	});
+		// 	this._electronService.ipcRenderer.on('ping-pong', (event, arg) => {
+		// 		console.log('RECEIVED DATA FROM ELECTRON TO ANGULAR APP', arg);
+		// 	});
+		// }
 	}
 
 	sendUsersClick(): void {

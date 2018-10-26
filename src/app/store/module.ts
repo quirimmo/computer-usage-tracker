@@ -9,6 +9,7 @@ import { NgReduxRouter, NgReduxRouterModule } from '@angular-redux/router';
 import { StoreModel } from './model';
 import { StoreReducer } from './reducers';
 import thunk from 'redux-thunk';
+import { applyMiddleware } from 'redux';
 
 @NgModule({
 	imports: [NgReduxModule, NgReduxRouterModule.forRoot()],

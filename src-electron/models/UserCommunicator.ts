@@ -9,6 +9,7 @@ export class UserCommunicator extends ElectronAppCommunicator {
 	}
 
 	public onMessageReceived(message: ICommunicationsChannelMessage): void {
-		console.log('user communicator event', message);
+		console.log('RECEIVED USERS MESSAGE');
+		// console.log('user communicator event', message);
 	}
 }

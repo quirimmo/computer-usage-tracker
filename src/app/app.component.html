@@ -20,6 +20,10 @@
   </li>
 </ul>
 <br />
+<form connect="myForm">
+  <input type="text" name="address" ngControl ngModel />
+</form>
 <div *ngFor="let user of users$ | async">
   <div>FIRSTNAME: {{user.firstName}}</div>
 </div>
+<users-list></users-list>
