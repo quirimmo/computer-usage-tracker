@@ -4,8 +4,9 @@ import { UserActions } from './users/actions';
 import { select, dispatch, NgRedux } from '@angular-redux/store';
 import { User } from './users/model';
 import { Observable } from 'rxjs';
-import { ElectronProxy } from './electron-proxy/service';
+import { ElectronProxyService } from './electron-proxy/service';
 import { StoreModel } from './store/model';
+import { UsersDAOService } from './users/dao.service';
 
 @Component({
 	selector: 'app-root',
@@ -21,7 +22,7 @@ export class AppComponent {
 	constructor(
 		private _electronService: ElectronService,
 		private actions: UserActions,
-		private electronProxy: ElectronProxy,
+		private electronProxy: ElectronProxyService,
 		private ngRedux: NgRedux<StoreModel>
 	) {
 		this.actions

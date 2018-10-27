@@ -2,7 +2,9 @@ import { app, App, ipcMain, IpcMain } from 'electron';
 import { MainWindow } from '../views/MainWindow';
 import {
 	ELECTRON_APP_DEV_URL,
-	ELECTRON_APP_PROD_URL
+	ELECTRON_APP_PROD_URL,
+	REQUEST_CHANNEL,
+	RESPONSE_CHANNEL
 } from '../constants/Electron.constants';
 import { Observable, Subject } from 'rxjs';
 import { ICommunicationsChannelMessage } from '../models/ICommunicationsChannelMessage';
@@ -46,7 +48,7 @@ export class ElectronApp {
 	public initCommunicationsChannel(): void {
 		this.communicators.set('users', new UserCommunicator());
 		this.communicators.set('activities', new ActivityCommunicator());
-		this.ipcMain.on('electron-app-channel', (event: any, arg: any) =>
+		this.ipcMain.on(REQUEST_CHANNEL, (event: any, arg: any) =>
 			this.communicationsChannel.next({
 				sender: event.sender,
 				message: arg.message,
@@ -58,8 +60,12 @@ export class ElectronApp {
 		);
 	}
 
-	public sendMessageToApp(channel: string, payload: any): void {
-		this.mainWindow.browserWindow.webContents.send(channel, payload);
+	public sendMessageToApp(payload: any): void {
+		this.mainWindow.browserWindow.webContents.send(REQUEST_CHANNEL, payload);
+	}
+
+	public sendResponseToApp(payload: any): void {
+		this.mainWindow.browserWindow.webContents.send(RESPONSE_CHANNEL, payload);
 	}
 
 	public onAppReady(subject: Subject<boolean>): void {

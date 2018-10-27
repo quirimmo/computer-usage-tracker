@@ -6,6 +6,7 @@ import { Observable, of, Subject } from 'rxjs';
 import { map, tap, share, publish } from 'rxjs/operators';
 import { NgRedux } from '@angular-redux/store';
 import { StoreModel } from '../store/model';
+import { UsersDAOService } from './dao.service';
 
 export interface UserAction extends Action {
 	users?: User[];
@@ -15,13 +16,15 @@ export interface UserAction extends Action {
 export class UserActions {
 	static readonly FETCH_USERS = 'FETCH_USERS';
 
-	constructor(private ngRedux: NgRedux<StoreModel>) {}
+	constructor(
+		private ngRedux: NgRedux<StoreModel>,
+		private usersDAOService: UsersDAOService
+	) {}
 
 	public dispatchFetchUsersThunk(): Observable<UserAction> {
 		return this.fetchUsersThunk()(this.ngRedux.dispatch);
 	}
 
-	@dispatch()
 	private fetchUsersThunk(): (
 		disp: Dispatch<AnyAction>
 	) => Observable<UserAction> {
@@ -39,6 +42,8 @@ export class UserActions {
 	}
 
 	private fetchUsers(): Observable<User[]> {
-		return of([new User('test user 1'), new User('test user 2')]);
+		console.log('fetching users');
+		return this.usersDAOService.fetchUsers();
+		// return of([new User('test user 1'), new User('test user 2')]);
 	}
 }
