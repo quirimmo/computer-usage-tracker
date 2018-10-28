@@ -19,7 +19,7 @@ export class UsersListComponent implements OnInit {
 	constructor() {}
 
 	ngOnInit() {
-		console.log('users:', this.users);
+		// console.log('users:', this.users);
 	}
 
 	deleteUser(user: User) {

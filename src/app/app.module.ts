@@ -15,6 +15,7 @@ import { ElectronProxyModule } from './electron-proxy/module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutesModule } from './routes/routes.module';
 import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
+import { ResolversModule } from './resolvers/resolvers.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -33,7 +34,8 @@ import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
 		NgxElectronModule,
 		UserModule,
 		ElectronProxyModule,
-		NavigationMenuModule
+		NavigationMenuModule,
+		ResolversModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

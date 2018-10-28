@@ -1,6 +1,7 @@
 import { UsersPageComponent } from './routes/users-page/users-page.component';
 import { HomePageComponent } from './routes/home-page/home-page.component';
 import { AddUserPageComponent } from './routes/add-user-page/add-user-page.component';
+import { UsersResolver } from './resolvers/users.resolver';
 
 export const AppRoutes = [
 	{
@@ -10,6 +11,10 @@ export const AppRoutes = [
 	},
 	{ path: 'home-page', component: HomePageComponent },
 	{ path: 'add-user-page', component: AddUserPageComponent },
-	{ path: 'users-page', component: UsersPageComponent },
+	{
+		path: 'users-page',
+		component: UsersPageComponent,
+		resolve: { fetchUsersAction: UsersResolver }
+	},
 	{ path: '**', component: HomePageComponent }
 ];
