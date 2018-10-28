@@ -23,6 +23,11 @@ export class ElectronApp {
 
 	private constructor() {
 		this.isDevMode = process.argv[2].split('--')[1] === 'dev';
+		if (this.isDevMode) {
+			// disable console warnings in dev mode triggered by loading as view http://localhost
+			process.env.ELECTRON_DISABLE_SECURITY_WARNINGS =
+				'ELECTRON_DISABLE_SECURITY_WARNINGS';
+		}
 		this.app = app;
 		this.ipcMain = ipcMain;
 		this.communicationsChannel = new Subject<any>();

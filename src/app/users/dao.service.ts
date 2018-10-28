@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
 import { ElectronProxyService } from '../electron-proxy/service';
 import { User } from './model';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class UsersDAOService {
-	constructor(private electronProxyService: ElectronProxyService) {
-		console.log('electronProxyService', this.electronProxyService);
-	}
+	constructor(private electronProxyService: ElectronProxyService) {}
 
 	public fetchUsers(): Observable<User[]> {
-		return of([new User('wowowowo')]);
+		const subject = new Subject<User[]>();
+		this.electronProxyService
+			.sendMessageWithResponse({
+				resource: 'users',
+				data: {},
+				action: 'get',
+				filters: {},
+				message: 'fetch all the users'
+			})
+			.subscribe((users: User[]) => {
+				subject.next(users);
+				subject.complete();
+			});
+		return subject.asObservable();
 	}
 }

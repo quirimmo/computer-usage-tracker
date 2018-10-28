@@ -15,7 +15,6 @@ export class ElectronProxyService {
 	constructor(private electronServiceInstance: ElectronService) {
 		this.renderer = this.electronServiceInstance.ipcRenderer;
 		this.isElectronApp = this.electronServiceInstance.isElectronApp;
-		// this.testing();
 	}
 
 	public async testing() {
@@ -26,7 +25,7 @@ export class ElectronProxyService {
 			filters: {},
 			message: 'fetch all the users'
 		}).toPromise();
-		console.log('received response:', sub);
+		return sub;
 	}
 
 	public sendMessage(message: ElectronChannelMessage): void {

@@ -12,10 +12,12 @@ import { AppRoutes } from './app.routes';
 import { NgxElectronModule } from 'ngx-electron';
 import { UserModule } from './users/module';
 import { ElectronProxyModule } from './electron-proxy/module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
+		BrowserAnimationsModule,
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,

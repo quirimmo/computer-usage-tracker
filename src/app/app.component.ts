@@ -25,10 +25,18 @@ export class AppComponent {
 		private electronProxy: ElectronProxyService,
 		private ngRedux: NgRedux<StoreModel>
 	) {
-		this.actions
-			.dispatchFetchUsersThunk()
-			.subscribe()
-			.unsubscribe();
+		const sub = this.actions.dispatchFetchUsersThunk().subscribe(() => {
+			sub.unsubscribe();
+		});
+		// const sub = this.actions.dispatchFetchUsersThunk().subscribe((val: any) => {
+		// 	console.log('subscribing to:', val);
+		// });
+
+		// .subscribe(val => {
+		// 	console.log('subscribed val:', val);
+		// 	console.log('users$', this.users$);
+		// })
+		// .unsubscribe();
 
 		// this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
 		// if (this._electronService.isElectronApp) {
@@ -43,6 +51,14 @@ export class AppComponent {
 		// 		console.log('RECEIVED DATA FROM ELECTRON TO ANGULAR APP', arg);
 		// 	});
 		// }
+	}
+
+	deleteUser(user: User): void {
+		console.log('calling delete user callback from app component', user);
+	}
+
+	updateUser(user: User): void {
+		console.log('calling update user callback from app component', user);
 	}
 
 	sendUsersClick(): void {

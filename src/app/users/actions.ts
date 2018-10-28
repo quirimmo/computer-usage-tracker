@@ -42,8 +42,6 @@ export class UserActions {
 	}
 
 	private fetchUsers(): Observable<User[]> {
-		console.log('fetching users');
 		return this.usersDAOService.fetchUsers();
-		// return of([new User('test user 1'), new User('test user 2')]);
 	}
 }
