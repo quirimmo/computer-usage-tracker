@@ -1,6 +1,11 @@
 <div>
-  <button type="submit" (click)="sendUsersClick()">Send Users Message</button>
+  <nav>
+    <a routerLink="/home-page">HOME</a>
+    <a routerLink="/users-page">USERS LIST</a>
+  </nav>
+  <router-outlet></router-outlet>
+  <!-- <button type="submit" (click)="sendUsersClick()">Send Users Message</button>
   <button type="submit" (click)="sendActivitiesClick()">Send Activities Message</button>
   <br />
-  <users-list [users]="users$ | async" (onDeleteUser)="deleteUser($event)" (onUpdateUser)="updateUser($event)"></users-list>
+  <users-list [users]="users$ | async" (onDeleteUser)="deleteUser($event)" (onUpdateUser)="updateUser($event)"></users-list> -->
 </div>

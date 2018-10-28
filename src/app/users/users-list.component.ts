@@ -1,12 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { User } from './model';
-import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'users-list',
 	inputs: ['users'],
-	outputs: ['onDeleteUser'],
+	outputs: ['onDeleteUser', 'onUpdateUser'],
 	styleUrls: ['./users-list.component.scss'],
 	templateUrl: './users-list.component.html'
 })
