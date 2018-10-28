@@ -14,6 +14,7 @@ import { UserModule } from './users/module';
 import { ElectronProxyModule } from './electron-proxy/module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutesModule } from './routes/routes.module';
+import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -31,7 +32,8 @@ import { RoutesModule } from './routes/routes.module';
 		StoreModule,
 		NgxElectronModule,
 		UserModule,
-		ElectronProxyModule
+		ElectronProxyModule,
+		NavigationMenuModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
