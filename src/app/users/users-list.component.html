@@ -1,7 +1,6 @@
 <mat-list role="list">
   <ng-container *ngFor="let user of users; trackBy:user?.id">
     <mat-list-item role="listitem">FIRSTNAME: {{user.firstName}}</mat-list-item>
-    <mat-list-item role="listitem">OBJECT: {{user | json}}</mat-list-item>
     <mat-list-item>
       <button mat-button>
         <mat-icon (click)="deleteUser(user)">delete_forever</mat-icon>

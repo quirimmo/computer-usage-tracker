@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component } from '@angular/core';
 import { User } from 'src/app/users/model';
-import { UsersDAOService } from 'src/app/users/dao.service';
+import { UserActions } from 'src/app/users/actions';
+import { Observable } from 'rxjs';
+import { select } from '@angular-redux/store';
 
 @Component({
 	selector: 'users-page',
@@ -9,22 +10,16 @@ import { UsersDAOService } from 'src/app/users/dao.service';
 	outputs: [],
 	templateUrl: './users-page.component.html'
 })
-export class UsersPageComponent implements OnInit {
-	users: User[];
+export class UsersPageComponent {
+	@select(['users'])
+	readonly users$: Observable<User[]>;
 
-	constructor(
-		private route: ActivatedRoute,
-		private usersDAO: UsersDAOService
-	) {}
-
-	ngOnInit() {
-		this.users = this.route.snapshot.data.fetchUsersAction.users;
-	}
+	constructor(private actions: UserActions) {}
 
 	deleteUser(user: User): void {
-		const subscription = this.usersDAO
-			.removeUser(user)
-			.subscribe((removedUsers: number) => {
+		const subscription = this.actions
+			.dispatchRemoveUserThunk(user)
+			.subscribe(() => {
 				subscription.unsubscribe();
 			});
 	}

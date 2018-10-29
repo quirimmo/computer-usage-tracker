@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { User } from './model';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'users-list',
@@ -8,22 +9,23 @@ import { User } from './model';
 	styleUrls: ['./users-list.component.scss'],
 	templateUrl: './users-list.component.html'
 })
-export class UsersListComponent implements OnInit {
+export class UsersListComponent {
 	@Input()
 	users: User[];
 	@Output()
-	onDeleteUser: EventEmitter<any> = new EventEmitter();
+	onDeleteUser: EventEmitter<any> = new EventEmitter(true);
 	@Output()
 	onUpdateUser: EventEmitter<any> = new EventEmitter();
 
 	constructor() {}
 
-	ngOnInit() {
-		// console.log('users:', this.users);
-	}
-
 	deleteUser(user: User) {
+		const subscription: Subscription = this.onDeleteUser.subscribe(onSubscribe);
 		this.onDeleteUser.emit(user);
+
+		function onSubscribe() {
+			subscription.unsubscribe();
+		}
 	}
 
 	updateUser(user: User) {

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { User } from 'src/app/users/model';
-import { UsersDAOService } from 'src/app/users/dao.service';
+import { UserActions } from 'src/app/users/actions';
 
 @Component({
 	selector: 'add-user-page',
@@ -9,13 +9,9 @@ import { UsersDAOService } from 'src/app/users/dao.service';
 	templateUrl: './add-user-page.component.html'
 })
 export class AddUserPageComponent {
-	constructor(private usersDAO: UsersDAOService) {}
+	constructor(private actions: UserActions) {}
 
 	addUser(user: User) {
-		const subscription = this.usersDAO
-			.addUser(user)
-			.subscribe((users: User[]) => {
-				subscription.unsubscribe();
-			});
+		this.actions.dispatchAddUserThunk(user).subscribe();
 	}
 }
