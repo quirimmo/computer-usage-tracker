@@ -47,4 +47,24 @@ export class UsersDAOService {
 			});
 		return subject.asObservable();
 	}
+
+	public removeUser(user: User): Observable<number> {
+		const subject = new Subject<number>();
+		const subscription = this.electronProxyService
+			.sendMessageWithResponse({
+				resource: 'users',
+				data: {
+					user
+				},
+				action: 'delete',
+				filters: {},
+				message: 'delete the given user'
+			})
+			.subscribe((removedUsers: number) => {
+				subject.next(removedUsers);
+				subject.complete();
+				subscription.unsubscribe();
+			});
+		return subject.asObservable();
+	}
 }

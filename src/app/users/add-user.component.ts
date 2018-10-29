@@ -1,6 +1,5 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { User } from './model';
-import { tap } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -12,6 +11,8 @@ import { Subscription } from 'rxjs';
 })
 export class AddUserComponent {
 	user: User;
+	showSuccessMessage: boolean;
+
 	@Output()
 	onAddUser: EventEmitter<any> = new EventEmitter(true);
 	@ViewChild('addUserForm')
@@ -19,6 +20,7 @@ export class AddUserComponent {
 
 	constructor() {
 		this.user = new User();
+		this.showSuccessMessage = false;
 	}
 
 	onSubmit() {
@@ -27,8 +29,12 @@ export class AddUserComponent {
 		this.onAddUser.emit(this.user);
 
 		function onSubscribe() {
+			_this.showSuccessMessage = true;
 			_this.cancel();
 			subscription.unsubscribe();
+			setTimeout(() => {
+				_this.showSuccessMessage = false;
+			}, 2000);
 		}
 	}
 

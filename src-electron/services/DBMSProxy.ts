@@ -65,6 +65,21 @@ export class DBMSProxy {
 		}
 	}
 
+	public removeDocument(document: any, datastore: Nedb): Observable<any> {
+		const subject = new Subject<any>();
+		datastore.remove({ _id: document.id }, onRemove);
+		return subject.asObservable();
+
+		function onRemove(err: Error, numRemoved: any) {
+			if (err) {
+				subject.error(err);
+			} else {
+				subject.next(numRemoved);
+			}
+			subject.complete();
+		}
+	}
+
 	public fetchDocuments(filters: any, datastore: Nedb): Observable<any> {
 		const subject = new Subject<any>();
 		datastore.find(filters, onFetch);

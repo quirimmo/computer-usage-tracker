@@ -35,6 +35,12 @@ export class UsersDAO {
 			.pipe(catchError((val: any) => of('Error inserting the users')));
 	}
 
+	public static remove(user: User): Observable<number> {
+		return DBMSProxy.getInstance()
+			.removeDocument(user, DBMSProxy.getInstance().db.users)
+			.pipe(catchError((val: any) => of('Error removing the user')));
+	}
+
 	public static fetch(): Observable<User[]> {
 		return DBMSProxy.getInstance()
 			.fetchDocuments({}, DBMSProxy.getInstance().db.users)

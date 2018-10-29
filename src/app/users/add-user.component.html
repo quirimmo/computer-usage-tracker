@@ -17,4 +17,7 @@
     <button type="button" mat-raised-button (click)="cancel()">Cancel</button>
     <button type="submit" mat-raised-button [disabled]="!addUserForm.form.valid">Add User</button>
   </div>
+  <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">
+    User added correctly
+  </div>
 </form>

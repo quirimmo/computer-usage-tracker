@@ -3,6 +3,7 @@ import { ICommunicationsChannelMessage } from './ICommunicationsChannelMessage';
 import { ElectronApp } from '../services/ElectronApp';
 import { UsersDAO } from './UsersDAO';
 import { User } from './User';
+import { Subscription } from 'rxjs';
 
 export class UserCommunicator extends ElectronAppCommunicator {
 	static readonly RESOURCE: string = 'users';
@@ -12,24 +13,32 @@ export class UserCommunicator extends ElectronAppCommunicator {
 	}
 
 	public onMessageReceived(message: ICommunicationsChannelMessage): void {
-		if (message.action === 'get') {
-			const sub = UsersDAO.fetch().subscribe((users: User[]) => {
-				ElectronApp.getInstance().sendResponseToApp(users);
-				sub.unsubscribe();
-			});
-		}
-		if (message.action === 'put') {
-			const sub = UsersDAO.insert([message.data.user]).subscribe(
-				(users: User[]) => {
+		let sub: Subscription;
+		switch (message.action) {
+			case 'get':
+				sub = UsersDAO.fetch().subscribe((users: User[]) => {
 					ElectronApp.getInstance().sendResponseToApp(users);
 					sub.unsubscribe();
-				}
-			);
-
-			// const sub = UsersDAO.fetch().subscribe((users: User[]) => {
-			// 	ElectronApp.getInstance().sendResponseToApp(users);
-			// 	sub.unsubscribe();
-			// });
+				});
+				break;
+			case 'put':
+				sub = UsersDAO.insert([message.data.user]).subscribe(
+					(users: User[]) => {
+						ElectronApp.getInstance().sendResponseToApp(users);
+						sub.unsubscribe();
+					}
+				);
+				break;
+			case 'delete':
+				sub = UsersDAO.remove(message.data.user).subscribe(
+					(numRemoved: number) => {
+						ElectronApp.getInstance().sendResponseToApp(numRemoved);
+						sub.unsubscribe();
+					}
+				);
+				break;
+			default:
+				break;
 		}
 
 		// console.log('RECEIVED USERS MESSAGE');
