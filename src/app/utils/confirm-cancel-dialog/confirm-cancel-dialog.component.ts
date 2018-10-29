@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { DialogData } from './confirm-cancel-dialog.service';
+import { ConfirmCancelDialogData } from './confirm-cancel-dialog.service';
 
 @Component({
 	selector: 'confirm-cancel-dialog',
@@ -10,10 +10,16 @@ import { DialogData } from './confirm-cancel-dialog.service';
 	templateUrl: './confirm-cancel-dialog.component.html'
 })
 export class ConfirmCancelDialog {
+	buttonConfirmText: string;
+	buttonCancelText: string;
+
 	constructor(
 		public dialogRef: MatDialogRef<ConfirmCancelDialog>,
-		@Inject(MAT_DIALOG_DATA) public data: DialogData
-	) {}
+		@Inject(MAT_DIALOG_DATA) public data: ConfirmCancelDialogData
+	) {
+		this.buttonConfirmText = data.buttonConfirmText || 'Confirm';
+		this.buttonCancelText = data.buttonCancelText || 'Cancel';
+	}
 
 	public confirm() {
 		this.data.onConfirm();

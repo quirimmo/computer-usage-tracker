@@ -1,6 +1,6 @@
 <div>
-  <h1>{{data.title}}</h1>
+  <h3>{{data.title}}</h3>
   <p>{{data.text}}</p>
-  <button type="button" mat-raised-button [mat-dialog-close] (click)="cancel()">Cancel</button>
-  <button type="submit" mat-raised-button [mat-dialog-close] cdkFocusInitial (click)="confirm()">Confirm</button>
+  <button type="button" mat-raised-button [mat-dialog-close] (click)="cancel()">{{buttonCancelText}}</button>
+  <button type="submit" mat-raised-button [mat-dialog-close] cdkFocusInitial (click)="confirm()">{{buttonConfirmText}}</button>
 </div>

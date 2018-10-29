@@ -21,20 +21,19 @@ export class UsersListComponent {
 	constructor(private confirmCancelDialogService: ConfirmCancelDialogService) {}
 
 	deleteUser(user: User) {
-		// console.log('new service', this.confirmCancelDialogService);
+		const _this: UsersListComponent = this;
 		this.confirmCancelDialogService.open({
-			title: 'FUCK YEAH',
-			text: 'Are you sure you want to remove?',
-			onConfirm: () => {
-				console.log('Confirmed');
-			}
+			title: 'Remove User',
+			text: `Are you sure you want to remove the user ${user.firstName}?`,
+			onConfirm
 		});
-		// const subscription: Subscription = this.onDeleteUser.subscribe(onSubscribe);
-		// this.onDeleteUser.emit(user);
 
-		// function onSubscribe() {
-		// 	subscription.unsubscribe();
-		// }
+		function onConfirm() {
+			const subscription: Subscription = _this.onDeleteUser.subscribe(() =>
+				subscription.unsubscribe()
+			);
+			_this.onDeleteUser.emit(user);
+		}
 	}
 
 	updateUser(user: User) {
