@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { User } from './model';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Component({
 	selector: 'add-user',

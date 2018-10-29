@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoutesModule } from './routes/routes.module';
 import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
 import { ResolversModule } from './resolvers/resolvers.module';
+import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -35,7 +36,8 @@ import { ResolversModule } from './resolvers/resolvers.module';
 		UserModule,
 		ElectronProxyModule,
 		NavigationMenuModule,
-		ResolversModule
+		ResolversModule,
+		ConfirmCancelDialogModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

@@ -13,6 +13,7 @@ import {
 	MatFormFieldModule
 } from '@angular/material';
 import { AddUserComponent } from './add-user.component';
+import { ConfirmCancelDialogModule } from '../utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
 
 @NgModule({
 	declarations: [UsersListComponent, AddUserComponent],
@@ -25,7 +26,8 @@ import { AddUserComponent } from './add-user.component';
 		MatButtonModule,
 		MatListModule,
 		MatIconModule,
-		FormsModule
+		FormsModule,
+		ConfirmCancelDialogModule
 	],
 	providers: [UserActions, UsersDAOService]
 })
