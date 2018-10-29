@@ -4,21 +4,28 @@ import { UserActions } from './actions';
 import { UsersListComponent } from './users-list.component';
 import { UsersDAOService } from './dao.service';
 import { ElectronProxyModule } from '../electron-proxy/module';
+import { FormsModule } from '@angular/forms';
 import {
 	MatButtonModule,
 	MatListModule,
-	MatIconModule
+	MatIconModule,
+	MatInputModule,
+	MatFormFieldModule
 } from '@angular/material';
+import { AddUserComponent } from './add-user.component';
 
 @NgModule({
-	declarations: [UsersListComponent],
-	exports: [UsersListComponent],
+	declarations: [UsersListComponent, AddUserComponent],
+	exports: [UsersListComponent, AddUserComponent],
 	imports: [
 		ElectronProxyModule,
 		CommonModule,
+		MatFormFieldModule,
+		MatInputModule,
 		MatButtonModule,
 		MatListModule,
-		MatIconModule
+		MatIconModule,
+		FormsModule
 	],
 	providers: [UserActions, UsersDAOService]
 })

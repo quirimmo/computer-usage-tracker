@@ -1,0 +1,20 @@
+<form (ngSubmit)="onSubmit()" #addUserForm="ngForm">
+  <div class="form-group">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Insert firstname here..." id="firstname" name="firstname" [(ngModel)]="user.firstName"
+        required minlength="4" #firstname="ngModel">
+    </mat-form-field>
+    <div *ngIf="firstname.invalid && (firstname.dirty || firstname.touched)" class="alert alert-danger">
+      <div *ngIf="firstname?.errors.required">
+        Name is required.
+      </div>
+      <div *ngIf="firstname?.errors.minlength">
+        Name must be at least 4 characters long.
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="button" mat-raised-button (click)="cancel()">Cancel</button>
+    <button type="submit" mat-raised-button [disabled]="!addUserForm.form.valid">Add User</button>
+  </div>
+</form>

@@ -18,6 +18,19 @@ export class UserCommunicator extends ElectronAppCommunicator {
 				sub.unsubscribe();
 			});
 		}
+		if (message.action === 'put') {
+			const sub = UsersDAO.insert([message.data.user]).subscribe(
+				(users: User[]) => {
+					ElectronApp.getInstance().sendResponseToApp(users);
+					sub.unsubscribe();
+				}
+			);
+
+			// const sub = UsersDAO.fetch().subscribe((users: User[]) => {
+			// 	ElectronApp.getInstance().sendResponseToApp(users);
+			// 	sub.unsubscribe();
+			// });
+		}
 
 		// console.log('RECEIVED USERS MESSAGE');
 		// console.log('sending response...');
