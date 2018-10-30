@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { User } from './model';
+import { User } from '../model';
 import { Subscription } from 'rxjs';
-import { ConfirmCancelDialogService } from '../utils/confirm-cancel-dialog/confirm-cancel-dialog.service';
+import { ConfirmCancelDialogService } from '../../utils/confirm-cancel-dialog/confirm-cancel-dialog.service';
 
 @Component({
 	selector: 'users-list',

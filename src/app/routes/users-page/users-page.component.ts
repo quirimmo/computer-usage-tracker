@@ -3,6 +3,8 @@ import { User } from 'src/app/users/model';
 import { UserActions } from 'src/app/users/actions';
 import { Observable } from 'rxjs';
 import { select } from '@angular-redux/store';
+import { Router } from '@angular/router';
+import { RouteDataService } from '../route-data-service.service';
 
 @Component({
 	selector: 'users-page',
@@ -14,7 +16,11 @@ export class UsersPageComponent {
 	@select(['users'])
 	readonly users$: Observable<User[]>;
 
-	constructor(private actions: UserActions) {}
+	constructor(
+		private actions: UserActions,
+		private router: Router,
+		private routeDataService: RouteDataService
+	) {}
 
 	deleteUser(user: User): void {
 		const subscription = this.actions
@@ -25,6 +31,8 @@ export class UsersPageComponent {
 	}
 
 	updateUser(user: User): void {
-		console.log('calling update user callback from app component', user);
+		// console.log('calling update user callback from app component', user);
+		this.routeDataService.currentUser = user;
+		this.router.navigate(['/save-user-page']);
 	}
 }

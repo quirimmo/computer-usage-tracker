@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import { User } from './model';
+import { User } from '../model';
 import { Subscription } from 'rxjs';
 
 @Component({
