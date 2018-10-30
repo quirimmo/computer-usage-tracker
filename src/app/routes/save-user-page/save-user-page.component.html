@@ -1,4 +1,4 @@
 <div>
   SAVE USER PAGE
-  <save-user [user]="user"></save-user>
+  <save-user (onSaveUser)="saveUser($event)" [user]="user"></save-user>
 </div>

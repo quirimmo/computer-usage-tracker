@@ -24,7 +24,13 @@ export class SaveUserPageComponent implements OnInit {
 			: new User();
 	}
 
-	addUser(user: User) {
-		this.actions.dispatchAddUserThunk(user).subscribe();
+	saveUser(user: User) {
+		const subscription = user.id
+			? this.actions.dispatchUpdateUserThunk(user).subscribe(onSubscribe)
+			: this.actions.dispatchAddUserThunk(user).subscribe(onSubscribe);
+
+		function onSubscribe() {
+			subscription.unsubscribe();
+		}
 	}
 }

@@ -29,6 +29,14 @@ export class UserCommunicator extends ElectronAppCommunicator {
 					}
 				);
 				break;
+			case 'post':
+				sub = UsersDAO.update(message.data.user).subscribe(
+					(numUpdated: number) => {
+						ElectronApp.getInstance().sendResponseToApp(numUpdated);
+						sub.unsubscribe();
+					}
+				);
+				break;
 			case 'delete':
 				sub = UsersDAO.remove(message.data.user).subscribe(
 					(numRemoved: number) => {

@@ -7,7 +7,7 @@ import {
 	OnInit
 } from '@angular/core';
 import { User } from '../model';
-import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'save-user',
@@ -27,20 +27,33 @@ export class SaveUserComponent implements OnInit {
 	@ViewChild('saveUserForm')
 	saveUserForm;
 
-	constructor() {}
+	constructor(private router: Router) {}
 
 	ngOnInit() {
 		this.isUpdateUser = !!this.user.id;
-		console.log('is there id', !!this.user.id);
-		console.log('given user:', this.user);
 	}
 
 	onSubmit() {
-		console.log('ma amcii un cazzo');
+		const _this: SaveUserComponent = this;
+		const subscription = this.onSaveUser.subscribe(onSubscribe);
+		this.onSaveUser.emit(this.user);
+
+		function onSubscribe() {
+			_this.showSuccessMessage = true;
+			_this.reset();
+			subscription.unsubscribe();
+			setTimeout(() => {
+				_this.showSuccessMessage = false;
+			}, 2000);
+		}
 	}
 
 	cancel() {
-		console.log('cosa?');
+		this.router.navigate(['/users-page']);
+	}
+
+	reset() {
+		this.saveUserForm.resetForm();
 	}
 
 	// onSubmit() {

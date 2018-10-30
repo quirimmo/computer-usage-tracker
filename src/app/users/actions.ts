@@ -17,6 +17,7 @@ export class UserActions {
 	static readonly FETCH_USERS = 'FETCH_USERS';
 	static readonly ADD_USER = 'ADD_USER';
 	static readonly REMOVE_USER = 'REMOVE_USER';
+	static readonly UPDATE_USER = 'UPDATE_USER';
 
 	constructor(
 		private ngRedux: NgRedux<StoreModel>,
@@ -94,7 +95,6 @@ export class UserActions {
 	}
 
 	private removeUserFulfilled(users: User[]): UserAction {
-		console.log('remove user fulfilled');
 		return {
 			type: UserActions.REMOVE_USER,
 			users
@@ -103,5 +103,32 @@ export class UserActions {
 
 	private removeUser(user: User): Observable<number> {
 		return this.usersDAOService.removeUser(user);
+	}
+
+	// UPDATE
+	// ==============================
+
+	public dispatchUpdateUserThunk(user: User): Observable<UserAction> {
+		return this.updateUserThunk(user)(this.ngRedux.dispatch);
+	}
+
+	private updateUserThunk(
+		user: User
+	): (disp: Dispatch<AnyAction>) => Observable<UserAction> {
+		return (disp: Dispatch<AnyAction>) =>
+			this.updateUser(user).pipe(
+				map((updateUsers: number) => disp(this.updateUserFulfilled([user])))
+			);
+	}
+
+	private updateUserFulfilled(users: User[]): UserAction {
+		return {
+			type: UserActions.UPDATE_USER,
+			users
+		};
+	}
+
+	private updateUser(user: User): Observable<number> {
+		return this.usersDAOService.updateUser(user);
 	}
 }

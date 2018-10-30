@@ -48,6 +48,26 @@ export class UsersDAOService {
 		return subject.asObservable();
 	}
 
+	public updateUser(user: User): Observable<number> {
+		const subject = new Subject<number>();
+		const subscription = this.electronProxyService
+			.sendMessageWithResponse({
+				resource: 'users',
+				data: {
+					user
+				},
+				action: 'post',
+				filters: {},
+				message: 'update the given user'
+			})
+			.subscribe((updatedUsers: number) => {
+				subject.next(updatedUsers);
+				subject.complete();
+				subscription.unsubscribe();
+			});
+		return subject.asObservable();
+	}
+
 	public removeUser(user: User): Observable<number> {
 		const subject = new Subject<number>();
 		const subscription = this.electronProxyService

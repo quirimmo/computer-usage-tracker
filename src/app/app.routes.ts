@@ -11,7 +11,8 @@ export const AppRoutes = [
 		pathMatch: 'full'
 	},
 	{ path: 'home-page', component: HomePageComponent },
-	{ path: 'add-user-page', component: AddUserPageComponent },
+	// { path: 'add-user-page', component: AddUserPageComponent },
+	{ path: 'add-user-page', component: SaveUserPageComponent },
 	{
 		path: 'save-user-page',
 		component: SaveUserPageComponent
