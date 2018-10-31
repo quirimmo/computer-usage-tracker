@@ -11,7 +11,7 @@ import { RouteDataService } from '../route-data-service.service';
 	templateUrl: './save-user-page.component.html'
 })
 export class SaveUserPageComponent implements OnInit {
-	public user?: User;
+	public user: User;
 
 	constructor(
 		private actions: UserActions,
@@ -19,15 +19,13 @@ export class SaveUserPageComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		this.user = this.routeDataService.currentUser
-			? this.routeDataService.currentUser
-			: new User();
+		this.user = this.routeDataService.currentUser;
 	}
 
 	saveUser(user: User) {
-		const subscription = user.id
-			? this.actions.dispatchUpdateUserThunk(user).subscribe(onSubscribe)
-			: this.actions.dispatchAddUserThunk(user).subscribe(onSubscribe);
+		const subscription = this.actions
+			.dispatchUpdateUserThunk(user)
+			.subscribe(onSubscribe);
 
 		function onSubscribe() {
 			subscription.unsubscribe();

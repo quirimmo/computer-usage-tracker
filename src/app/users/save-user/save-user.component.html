@@ -16,9 +16,9 @@
   <div class="form-group">
     <button type="button" mat-raised-button (click)="cancel()">Users List Page</button>
     <button type="button" mat-raised-button [disabled]="saveUserForm.form.pristine" (click)="reset()">Reset Form</button>
-    <button type="submit" mat-raised-button [disabled]="!saveUserForm.form.valid">Save User</button>
+    <button type="submit" mat-raised-button [disabled]="!saveUserForm.form.valid">{{submitButtonText}}</button>
   </div>
   <div *ngIf="showSuccessMessage" class="alert alert-success" role="alert">
-    User Saved Correctly
+    {{successMessageText}}
   </div>
 </form>

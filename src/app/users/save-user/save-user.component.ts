@@ -8,6 +8,8 @@ import {
 } from '@angular/core';
 import { User } from '../model';
 import { Router } from '@angular/router';
+import { concat, defer, Observable, Subject } from 'rxjs';
+import { delay, mapTo, map } from 'rxjs/operators';
 
 @Component({
 	selector: 'save-user',
@@ -19,32 +21,46 @@ import { Router } from '@angular/router';
 export class SaveUserComponent implements OnInit {
 	@Input()
 	user?: User;
-	showSuccessMessage: boolean;
-	isUpdateUser: boolean;
 
 	@Output()
 	onSaveUser: EventEmitter<any> = new EventEmitter(true);
+
 	@ViewChild('saveUserForm')
 	saveUserForm;
+
+	showSuccessMessage: boolean;
+	isUpdateUser: boolean;
+	submitButtonText: string;
+	successMessageText: string;
 
 	constructor(private router: Router) {}
 
 	ngOnInit() {
 		this.isUpdateUser = !!this.user.id;
+		this.submitButtonText = this.isUpdateUser ? 'Update User' : 'Add User';
+		this.successMessageText = this.isUpdateUser
+			? 'User Updated Correctly'
+			: 'User Added Correctly';
 	}
 
 	onSubmit() {
 		const _this: SaveUserComponent = this;
-		const subscription = this.onSaveUser.subscribe(onSubscribe);
+		const subscription = this.onSaveUser
+			.pipe(map(showSuccessMessage))
+			.pipe(delay(2000))
+			.subscribe(onSubscribe);
 		this.onSaveUser.emit(this.user);
 
-		function onSubscribe() {
+		function showSuccessMessage() {
 			_this.showSuccessMessage = true;
-			_this.reset();
+		}
+
+		function onSubscribe() {
+			_this.showSuccessMessage = false;
+			if (!_this.isUpdateUser) {
+				_this.reset();
+			}
 			subscription.unsubscribe();
-			setTimeout(() => {
-				_this.showSuccessMessage = false;
-			}, 2000);
 		}
 	}
 
@@ -55,23 +71,4 @@ export class SaveUserComponent implements OnInit {
 	reset() {
 		this.saveUserForm.resetForm();
 	}
-
-	// onSubmit() {
-	// 	const _this: AddUserComponent = this;
-	// 	const subscription: Subscription = this.onAddUser.subscribe(onSubscribe);
-	// 	this.onAddUser.emit(this.user);
-
-	// 	function onSubscribe() {
-	// 		_this.showSuccessMessage = true;
-	// 		_this.cancel();
-	// 		subscription.unsubscribe();
-	// 		setTimeout(() => {
-	// 			_this.showSuccessMessage = false;
-	// 		}, 2000);
-	// 	}
-	// }
-
-	// cancel() {
-	// 	this.addUserForm.resetForm();
-	// }
 }

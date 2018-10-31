@@ -31,7 +31,6 @@ export class UsersPageComponent {
 	}
 
 	updateUser(user: User): void {
-		// console.log('calling update user callback from app component', user);
 		this.routeDataService.currentUser = user;
 		this.router.navigate(['/save-user-page']);
 	}

@@ -26,7 +26,7 @@ import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		RouterModule.forRoot(AppRoutes),
+		RouterModule.forRoot(AppRoutes, { onSameUrlNavigation: 'reload' }),
 		BrowserModule,
 		NgReduxModule,
 		NgReduxRouterModule.forRoot(),

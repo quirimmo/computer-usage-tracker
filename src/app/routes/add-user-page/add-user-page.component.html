@@ -1,1 +1,6 @@
-<add-user (onAddUser)="addUser($event)"></add-user>
+<div>
+  <h1>
+    ADD USER
+  </h1>
+  <save-user (onSaveUser)="addUser($event)" [user]="user"></save-user>
+</div>
