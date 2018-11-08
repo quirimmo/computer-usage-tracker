@@ -8,8 +8,8 @@ import { DBMSProxy } from '../services/DBMSProxy';
 export class UsersDAO {
 	private constructor() {}
 
-	public static createDatastore(): Observable<Nedb | string> {
-		const subject = new Subject<Nedb | string>();
+	public static createDatastore(): Observable<Nedb> {
+		const subject = new Subject<Nedb>();
 		const datastore = new Nedb({
 			filename: USERS_DATASTORE_FULL_NAME,
 			autoload: true,
@@ -19,10 +19,12 @@ export class UsersDAO {
 
 		function onload(err: Error) {
 			if (err) {
-				subject.error(
+				console.error(
 					`Error creating USERS datastore: ${err.name} - ${err.message}`
 				);
+				subject.error(datastore);
 			} else {
+				console.log(`Datastore USERS created successfully`);
 				subject.next(datastore);
 			}
 			subject.complete();

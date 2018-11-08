@@ -1,0 +1,18 @@
+<form #fileToUploadForm="ngForm">
+  <div class="form-group">
+    <mat-form-field>
+      <input matInput placeholder="Insert file name here..." id="displayName" name="displayName" [(ngModel)]="file.displayName"
+        #displayName="ngModel">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Insert file description here..." id="description" name="description" [(ngModel)]="file.description"
+        #description="ngModel">
+    </mat-form-field>
+    <button mat-button>
+      <mat-icon (click)="removeFileToUpload()" (click)="removeFile()">delete_forever</mat-icon>
+    </button>
+  </div>
+  <div class="form-group">
+    <mat-progress-bar mode="determinate" value="40"></mat-progress-bar>
+  </div>
+</form>

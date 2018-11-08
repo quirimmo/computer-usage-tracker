@@ -17,6 +17,7 @@ import { RoutesModule } from './routes/routes.module';
 import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
 import { ResolversModule } from './resolvers/resolvers.module';
 import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
+import { FilesUploaderModule } from './files-uploader/files-uploader.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -26,7 +27,7 @@ import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm
 		CommonModule,
 		FormsModule,
 		ReactiveFormsModule,
-		RouterModule.forRoot(AppRoutes, { onSameUrlNavigation: 'reload' }),
+		RouterModule.forRoot(AppRoutes),
 		BrowserModule,
 		NgReduxModule,
 		NgReduxRouterModule.forRoot(),
@@ -37,7 +38,8 @@ import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm
 		ElectronProxyModule,
 		NavigationMenuModule,
 		ResolversModule,
-		ConfirmCancelDialogModule
+		ConfirmCancelDialogModule,
+		FilesUploaderModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

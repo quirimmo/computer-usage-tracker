@@ -1,25 +1,41 @@
-// import { app, BrowserWindow, ipcMain } from 'electron';
 import { ElectronApp } from './services/ElectronApp';
 import { DBMSProxy } from './services/DBMSProxy';
-import { UsersDAO } from './models/UsersDAO';
-import { defer, concat } from 'rxjs';
-import { User } from './models/User';
+import { concat } from 'rxjs';
 
-// const dbmsProxy: DBMSProxy = DBMSProxy.getInstance();
-// const user1 = new User('quirino');
-// const user2 = new User('chopper');
-// const users = [user1, user2];
+// ELECTRON
+// ==============================
 
-// const operations = concat(
-// 	dbmsProxy.createDatastores(),
-// 	defer(() => UsersDAO.insert(users)),
-// 	defer(() => UsersDAO.fetch())
-// );
-// operations.subscribe(onSubscribe);
-// function onSubscribe(result: any) {
-// 	console.log('Finished all: ', result);
-// }
-const dbmsProxy: DBMSProxy = DBMSProxy.getInstance();
-dbmsProxy.createDatastores();
-const electronApp = ElectronApp.getInstance();
-electronApp.initApp().subscribe();
+const operations = concat(
+	DBMSProxy.getInstance().createDatastores(),
+	ElectronApp.getInstance().initApp()
+);
+
+operations.subscribe(onSuccess, onError);
+
+function onSuccess() {
+	console.log('App Started Correctly');
+}
+
+function onError(err: any) {
+	console.error('Error bootstrapping the app', err);
+}
+
+// PROCESSES
+// ==============================
+
+// const tasklist = require('tasklist');
+
+// tasklist({ verbose: true }).then((tasks: any) => {
+// 	const runningTasks = tasks.filter((task: any) => task.status === 'Running');
+// 	runningTasks.sort((a: any, b: any) => a.memUsage > b.memUsage);
+// 	console.log(runningTasks);
+// 	/*
+//     [{
+//         imageName: 'taskhostex.exe',
+//         pid: 1820,
+//         sessionName: 'Console',
+//         sessionNumber: 1,
+//         memUsage: 4415488,
+//     }, …]
+//     */
+// });

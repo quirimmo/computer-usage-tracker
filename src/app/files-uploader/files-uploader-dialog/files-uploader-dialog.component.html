@@ -1,0 +1,25 @@
+<form (ngSubmit)="onSubmit()" #filesToUploadForm="ngForm">
+
+  <div class="form-group">
+    <ng-container *ngFor="let file of uploadedFiles">
+      <file-uploaded-item></file-uploaded-item>
+    </ng-container>
+  </div>
+
+  <div class="from-group">
+    <button type="button" mat-raised-button (click)="onOpenFileUploader()">Load Files</button>
+    <input type="file" style="display: none" #fileInputElement (change)="onFilesChanged()" multiple />
+  </div>
+
+  <div class="form-group TEST">
+    <ng-container *ngFor="let file of files">
+      <file-to-upload-item (onRemoveFile)="onRemoveFile($event)" [file]="file"></file-to-upload-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </div>
+
+  <div class="from-group">
+    <button type="submit" mat-raised-button>Upload Files</button>
+  </div>
+
+</form>

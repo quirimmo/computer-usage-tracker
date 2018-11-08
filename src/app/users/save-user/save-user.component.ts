@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { User } from '../model';
 import { Router } from '@angular/router';
-import { concat, defer, Observable, Subject } from 'rxjs';
-import { delay, mapTo, map } from 'rxjs/operators';
+import { delay, map } from 'rxjs/operators';
+import { FilesUploaderTriggerService } from 'src/app/files-uploader/files-uploader-trigger/files-uploader-trigger.service';
 
 @Component({
 	selector: 'save-user',
@@ -28,12 +28,24 @@ export class SaveUserComponent implements OnInit {
 	@ViewChild('saveUserForm')
 	saveUserForm;
 
+	uploadedFiles: any = [
+		{
+			id: '1',
+			path: 'file path 1',
+			name: 'First File',
+			description: 'Description of the first file'
+		}
+	];
+
 	showSuccessMessage: boolean;
 	isUpdateUser: boolean;
 	submitButtonText: string;
 	successMessageText: string;
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private filesUploaderTrigger: FilesUploaderTriggerService
+	) {}
 
 	ngOnInit() {
 		this.isUpdateUser = !!this.user.id;
@@ -62,6 +74,10 @@ export class SaveUserComponent implements OnInit {
 			}
 			subscription.unsubscribe();
 		}
+	}
+
+	testOpen() {
+		this.filesUploaderTrigger.open();
 	}
 
 	cancel() {

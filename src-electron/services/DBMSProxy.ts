@@ -1,9 +1,20 @@
 import * as Nedb from 'nedb';
 import { UsersDAO } from '../models/UsersDAO';
-import { Subscription, Subject, forkJoin, Observable } from 'rxjs';
+import {
+	Subscription,
+	Subject,
+	forkJoin,
+	Observable,
+	concat,
+	of,
+	OperatorFunction
+} from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { FilesDAO } from '../models/FilesDAO';
 
 export interface IComputerUsageTrackerDB {
 	users?: Nedb;
+	files?: Nedb;
 }
 
 export class DBMSProxy {
@@ -19,30 +30,28 @@ export class DBMSProxy {
 		return DBMSProxy.instance;
 	}
 
-	public createDatastores(): Observable<string> {
+	public createDatastores(): Observable<Nedb[]> {
 		const _this: DBMSProxy = this;
-		const subject = new Subject<string>();
-		const subscription: Subscription = UsersDAO.createDatastore().subscribe(
-			onSuccess,
-			onError,
-			onFinally
+		return forkJoin(
+			UsersDAO.createDatastore()
+				.pipe(onDatastoreCreated(_this.db.users))
+				.pipe(onDatastoreError()),
+			FilesDAO.createDatastore()
+				.pipe(onDatastoreCreated(_this.db.files))
+				.pipe(onDatastoreError())
 		);
-		return subject.asObservable();
 
-		function onSuccess(datastore: Nedb): void {
-			console.log(`USERS Datastore Created Successfully`);
-			_this.db.users = datastore;
-			subject.next('success');
+		function onDatastoreCreated(
+			dbDatastore: Nedb
+		): OperatorFunction<Nedb, Nedb> {
+			return map((datastore: Nedb) => {
+				dbDatastore = datastore;
+				return datastore;
+			});
 		}
 
-		function onError(err: string) {
-			subject.error('error');
-			console.error(err);
-		}
-
-		function onFinally() {
-			subject.complete();
-			subscription.unsubscribe();
+		function onDatastoreError(): OperatorFunction<Nedb, Nedb> {
+			return catchError((err: Nedb) => of(err));
 		}
 	}
 

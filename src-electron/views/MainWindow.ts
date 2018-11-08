@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron';
+import { WIDTH, HEIGHT } from '../constants/Electron.constants';
 const devtron = require('devtron');
 
 export class MainWindow {
@@ -8,8 +9,8 @@ export class MainWindow {
 
 	public openWindow(onClose?: () => void): void {
 		this.browserWindow = new BrowserWindow({
-			width: 1200,
-			height: 800
+			width: WIDTH,
+			height: HEIGHT
 		});
 		devtron.install();
 		this.browserWindow.webContents.openDevTools();
