@@ -18,6 +18,8 @@ import { NavigationMenuModule } from './navigation-menu/navigation-menu.module';
 import { ResolversModule } from './resolvers/resolvers.module';
 import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
 import { FilesUploaderModule } from './files-uploader/files-uploader.module';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { TimerModule } from './timer/timer.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -39,7 +41,9 @@ import { FilesUploaderModule } from './files-uploader/files-uploader.module';
 		NavigationMenuModule,
 		ResolversModule,
 		ConfirmCancelDialogModule,
-		FilesUploaderModule
+		FilesUploaderModule,
+		AngularFileUploaderModule,
+		TimerModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]

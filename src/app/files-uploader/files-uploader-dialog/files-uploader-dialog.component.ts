@@ -40,8 +40,8 @@ export class FilesUploaderDialogComponent {
 			reader.readAsDataURL(f);
 			reader.onload = (event: any) => {
 				console.log('FILE READ RESULT:', event.target.result);
+				this.files.add(f);
 			};
-			this.files.add(f);
 		});
 	}
 

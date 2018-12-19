@@ -6,6 +6,7 @@ import {
 	Input,
 	OnInit
 } from '@angular/core';
+import { AngularFileUploaderComponent } from 'angular-file-uploader';
 import { User } from '../model';
 import { Router } from '@angular/router';
 import { delay, map } from 'rxjs/operators';
@@ -28,6 +29,9 @@ export class SaveUserComponent implements OnInit {
 	@ViewChild('saveUserForm')
 	saveUserForm;
 
+	@ViewChild('fileUpload1')
+	private fileUpload1: AngularFileUploaderComponent;
+
 	uploadedFiles: any = [
 		{
 			id: '1',
@@ -36,6 +40,13 @@ export class SaveUserComponent implements OnInit {
 			description: 'Description of the first file'
 		}
 	];
+
+	afuConfig = {
+		multiple: true,
+		uploadAPI: {
+			url: 'https://example-file-upload-api'
+		}
+	};
 
 	showSuccessMessage: boolean;
 	isUpdateUser: boolean;
@@ -53,6 +64,10 @@ export class SaveUserComponent implements OnInit {
 		this.successMessageText = this.isUpdateUser
 			? 'User Updated Correctly'
 			: 'User Added Correctly';
+	}
+
+	onClick() {
+		console.log('clicked:', this.fileUpload1);
 	}
 
 	onSubmit() {

@@ -15,6 +15,7 @@ import {
 import { ConfirmCancelDialogModule } from '../utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
 import { SaveUserComponent } from './save-user/save-user.component';
 import { FilesUploaderModule } from '../files-uploader/files-uploader.module';
+import { AngularFileUploaderModule } from 'angular-file-uploader';
 
 @NgModule({
 	declarations: [UsersListComponent, SaveUserComponent],
@@ -29,7 +30,8 @@ import { FilesUploaderModule } from '../files-uploader/files-uploader.module';
 		MatIconModule,
 		FormsModule,
 		ConfirmCancelDialogModule,
-		FilesUploaderModule
+		FilesUploaderModule,
+		AngularFileUploaderModule
 	],
 	providers: [UserActions, UsersDAOService]
 })
