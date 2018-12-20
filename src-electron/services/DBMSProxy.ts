@@ -1,20 +1,14 @@
 import * as Nedb from 'nedb';
 import { UsersDAO } from '../models/UsersDAO';
-import {
-	Subscription,
-	Subject,
-	forkJoin,
-	Observable,
-	concat,
-	of,
-	OperatorFunction
-} from 'rxjs';
+import { Subject, forkJoin, Observable, of, OperatorFunction } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { FilesDAO } from '../models/FilesDAO';
+import { CurrentUsageDAO } from '../models/CurrentUsageDAO';
 
 export interface IComputerUsageTrackerDB {
 	users?: Nedb;
 	files?: Nedb;
+	currentUsage?: Nedb;
 }
 
 export class DBMSProxy {
@@ -38,6 +32,9 @@ export class DBMSProxy {
 				.pipe(onDatastoreError()),
 			FilesDAO.createDatastore()
 				.pipe(onDatastoreCreated(_this.db.files))
+				.pipe(onDatastoreError()),
+			CurrentUsageDAO.createDatastore()
+				.pipe(onDatastoreCreated(_this.db.currentUsage))
 				.pipe(onDatastoreError())
 		);
 

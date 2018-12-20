@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
 	selector: 'home-page',
@@ -6,21 +6,10 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 	outputs: [],
 	templateUrl: './home-page.component.html'
 })
-export class HomePageComponent implements OnInit, OnDestroy {
+export class HomePageComponent {
 	value: number;
-	interval: number;
 
 	constructor() {
-		this.value = 1;
-	}
-
-	ngOnInit(): void {
-		this.interval = window.setInterval(() => {
-			this.value++;
-		}, 1000);
-	}
-
-	ngOnDestroy(): void {
-		window.clearInterval(this.interval);
+		this.value = 143878;
 	}
 }

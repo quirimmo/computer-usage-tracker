@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ElectronService } from 'ngx-electron';
 import { UserActions } from './users/actions';
 import { select, dispatch, NgRedux } from '@angular-redux/store';
@@ -13,11 +13,14 @@ import { UsersDAOService } from './users/dao.service';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	title = 'app';
 
 	@select(['users'])
 	readonly users$: Observable<User[]>;
+
+	@select(['currentUsageTime'])
+	readonly currentUsageTime$: Observable<number>;
 
 	constructor(
 		private _electronService: ElectronService,
@@ -51,9 +54,22 @@ export class AppComponent {
 		// }
 	}
 
-	sendUsersClick(): void {
+	ngOnInit() {
 		if (this._electronService.isElectronApp) {
-			this._electronService.ipcRenderer.send('electron-app-channel', {
+			this._electronService.ipcRenderer.send('electron-app-channel-request', {
+				resource: 'app',
+				data: {},
+				action: 'post',
+				filters: {},
+				message: 'App started correctly'
+			});
+		}
+	}
+
+	sendUsersClick(): void {
+		console.log('clicked:', this._electronService);
+		if (this._electronService.isElectronApp) {
+			this._electronService.ipcRenderer.send('electron-app-channel-request', {
 				resource: 'users',
 				data: { test: 'customData' },
 				method: 'post',

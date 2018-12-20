@@ -11,6 +11,7 @@ import { ICommunicationsChannelMessage } from '../models/ICommunicationsChannelM
 import { ElectronAppCommunicator } from '../models/ElectronAppCommunicator';
 import { UserCommunicator } from '../models/UserCommunicator';
 import { ActivityCommunicator } from '../models/ActivityCommunicator';
+import { AppCommunicator } from '../models/AppCommunicator';
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -20,6 +21,7 @@ export class ElectronApp {
 	public ipcMain: IpcMain = null;
 	public communicationsChannel: Subject<ICommunicationsChannelMessage>;
 	public communicators: Map<string, ElectronAppCommunicator>;
+	public isRendered = false;
 
 	private constructor() {
 		this.isDevMode = process.argv[2].split('--')[1] === 'dev';
@@ -53,6 +55,7 @@ export class ElectronApp {
 	public initCommunicationsChannel(): void {
 		this.communicators.set('users', new UserCommunicator());
 		this.communicators.set('activities', new ActivityCommunicator());
+		this.communicators.set('app', new AppCommunicator());
 		this.ipcMain.on(REQUEST_CHANNEL, (event: any, arg: any) =>
 			this.communicationsChannel.next({
 				sender: event.sender,

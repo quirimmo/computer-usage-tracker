@@ -8,7 +8,5 @@ import { TimerComponent } from './timer.component';
 	providers: []
 })
 export class TimerModule {
-	constructor() {
-		console.log('added timer module');
-	}
+	constructor() {}
 }

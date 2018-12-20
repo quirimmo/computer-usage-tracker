@@ -20,6 +20,7 @@ import { ConfirmCancelDialogModule } from './utils/confirm-cancel-dialog/confirm
 import { FilesUploaderModule } from './files-uploader/files-uploader.module';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { TimerModule } from './timer/timer.module';
+import { CurrentUsageModule } from './current-usage/current-usage.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -43,6 +44,7 @@ import { TimerModule } from './timer/timer.module';
 		ConfirmCancelDialogModule,
 		FilesUploaderModule,
 		AngularFileUploaderModule,
+		CurrentUsageModule,
 		TimerModule
 	],
 	providers: [],

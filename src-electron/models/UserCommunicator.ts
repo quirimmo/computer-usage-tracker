@@ -49,7 +49,6 @@ export class UserCommunicator extends ElectronAppCommunicator {
 				break;
 		}
 
-		// console.log('RECEIVED USERS MESSAGE');
 		// console.log('sending response...');
 		// ElectronApp.getInstance().sendMessageToApp(
 		// 	'electron-app-channel-response',
