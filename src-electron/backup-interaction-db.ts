@@ -1,6 +1,6 @@
 import { DBMSProxy } from './services/DBMSProxy';
-import { UsersDAO } from './models/UsersDAO';
-import { User } from './models/User';
+import { UsersDAO } from './models/user/UsersDAO';
+import { User } from './models/user/User';
 import { concat, defer } from 'rxjs';
 
 // DB INTERACTIONS EXAMPLE

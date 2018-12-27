@@ -7,12 +7,11 @@ import {
 	RESPONSE_CHANNEL
 } from '../constants/Electron.constants';
 import { Observable, Subject } from 'rxjs';
-import { ICommunicationsChannelMessage } from '../models/ICommunicationsChannelMessage';
-import { ElectronAppCommunicator } from '../models/ElectronAppCommunicator';
-import { UserCommunicator } from '../models/UserCommunicator';
-import { ActivityCommunicator } from '../models/ActivityCommunicator';
-import { AppCommunicator } from '../models/AppCommunicator';
-import { UsageCommunicator } from 'src-electron/models/usage/UsageCommunicator';
+import { ICommunicationsChannelMessage } from '../communicators/ICommunicationsChannelMessage';
+import { ElectronAppCommunicator } from '../communicators/ElectronAppCommunicator';
+import { UserCommunicator } from '../communicators/UserCommunicator';
+import { AppCommunicator } from '../communicators/AppCommunicator';
+import { UsageCommunicator } from '../communicators/UsageCommunicator';
 
 const template: any = [
 	{
@@ -75,7 +74,6 @@ export class ElectronApp {
 
 	public initCommunicationsChannel(): void {
 		this.communicators.set('users', new UserCommunicator());
-		this.communicators.set('activities', new ActivityCommunicator());
 		this.communicators.set('app', new AppCommunicator());
 		this.communicators.set('usage', new UsageCommunicator());
 		this.ipcMain.on(REQUEST_CHANNEL, (event: any, arg: any) =>
@@ -129,8 +127,10 @@ export class ElectronApp {
 		console.log('Destroying app...');
 		if (process.platform !== 'darwin') {
 			this.communicators.forEach((communicator: ElectronAppCommunicator) => {
-				communicator.channel.complete();
-				communicator.channel.unsubscribe();
+				if (!communicator.channel.isStopped) {
+					communicator.channel.complete();
+					communicator.channel.unsubscribe();
+				}
 			});
 			this.communicationsChannel.unsubscribe();
 			app.quit();

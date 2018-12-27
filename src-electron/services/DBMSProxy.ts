@@ -1,8 +1,8 @@
 import * as Nedb from 'nedb';
-import { UsersDAO } from '../models/UsersDAO';
+import { UsersDAO } from '../models/user/UsersDAO';
 import { Subject, forkJoin, Observable, of, OperatorFunction } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { FilesDAO } from '../models/FilesDAO';
+import { FilesDAO } from '../models/file/FilesDAO';
 import { UsageDAO } from '../models/usage/UsageDAO';
 
 export interface IComputerUsageTrackerDB {

@@ -1,8 +1,8 @@
 import { ElectronAppCommunicator } from './ElectronAppCommunicator';
 import { ICommunicationsChannelMessage } from './ICommunicationsChannelMessage';
 import { ElectronApp } from '../services/ElectronApp';
-import { UsersDAO } from './UsersDAO';
-import { User } from './User';
+import { UsersDAO } from '../models/user/UsersDAO';
+import { User } from '../models/user/User';
 import { Subscription } from 'rxjs';
 
 export class UserCommunicator extends ElectronAppCommunicator {

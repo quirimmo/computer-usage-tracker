@@ -1,9 +1,9 @@
 import * as Nedb from 'nedb';
-import { USERS_DATASTORE_FULL_NAME } from '../constants/DB.constants';
+import { USERS_DATASTORE_FULL_NAME } from '../../constants/DB.constants';
 import { Subject, Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { User } from './User';
-import { DBMSProxy } from '../services/DBMSProxy';
+import { DBMSProxy } from '../../services/DBMSProxy';
 
 export class UsersDAO {
 	private constructor() {}

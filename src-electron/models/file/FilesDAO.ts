@@ -1,8 +1,8 @@
 import * as Nedb from 'nedb';
 import { Observable, Subject, of } from 'rxjs';
-import { FILES_DATASTORE_FULL_NAME } from '../constants/DB.constants';
+import { FILES_DATASTORE_FULL_NAME } from '../../constants/DB.constants';
 import { File } from './File';
-import { DBMSProxy } from '../services/DBMSProxy';
+import { DBMSProxy } from '../../services/DBMSProxy';
 import { catchError, map } from 'rxjs/operators';
 
 export class FilesDAO {
