@@ -38,9 +38,10 @@ export class UsersDAO {
 	}
 
 	public static update(users: User[]): Observable<number> {
-		return DBMSProxy.getInstance()
-			.updateDocument(users, DBMSProxy.getInstance().db.users)
-			.pipe(catchError((val: any) => of('Error updating the users')));
+		return of(1);
+		// return DBMSProxy.getInstance()
+		// 	.updateDocument(users, DBMSProxy.getInstance().db.users)
+		// 	.pipe(catchError((val: any) => of('Error updating the users')));
 	}
 
 	public static remove(user: User): Observable<number> {

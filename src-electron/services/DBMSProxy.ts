@@ -3,12 +3,12 @@ import { UsersDAO } from '../models/UsersDAO';
 import { Subject, forkJoin, Observable, of, OperatorFunction } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { FilesDAO } from '../models/FilesDAO';
-import { CurrentUsageDAO } from '../models/CurrentUsageDAO';
+import { UsageDAO } from '../models/usage/UsageDAO';
 
 export interface IComputerUsageTrackerDB {
 	users?: Nedb;
 	files?: Nedb;
-	currentUsage?: Nedb;
+	usage?: Nedb;
 }
 
 export class DBMSProxy {
@@ -28,24 +28,15 @@ export class DBMSProxy {
 		const _this: DBMSProxy = this;
 		return forkJoin(
 			UsersDAO.createDatastore()
-				.pipe(onDatastoreCreated(_this.db.users))
+				.pipe(map((datastore: Nedb) => (_this.db.users = datastore)))
 				.pipe(onDatastoreError()),
 			FilesDAO.createDatastore()
-				.pipe(onDatastoreCreated(_this.db.files))
+				.pipe(map((datastore: Nedb) => (_this.db.files = datastore)))
 				.pipe(onDatastoreError()),
-			CurrentUsageDAO.createDatastore()
-				.pipe(onDatastoreCreated(_this.db.currentUsage))
+			UsageDAO.createDatastore()
+				.pipe(map((datastore: Nedb) => (_this.db.usage = datastore)))
 				.pipe(onDatastoreError())
 		);
-
-		function onDatastoreCreated(
-			dbDatastore: Nedb
-		): OperatorFunction<Nedb, Nedb> {
-			return map((datastore: Nedb) => {
-				dbDatastore = datastore;
-				return datastore;
-			});
-		}
 
 		function onDatastoreError(): OperatorFunction<Nedb, Nedb> {
 			return catchError((err: Nedb) => of(err));
@@ -63,7 +54,7 @@ export class DBMSProxy {
 			} else {
 				// add to the documents to insert the id just created from nedb when inserting the document
 				documents.forEach((document: any, ind: number) => {
-					document.id = newDocuments[ind]._id;
+					document._id = newDocuments[ind]._id;
 				});
 				subject.next(documents);
 			}
@@ -73,13 +64,14 @@ export class DBMSProxy {
 
 	public updateDocument(document: any, datastore: Nedb): Observable<any> {
 		const subject = new Subject<any>();
-		datastore.update({ _id: document.id }, document, {}, onUpdate);
+		datastore.update({ _id: document._id }, { ...document }, {}, onUpdate);
 		return subject.asObservable();
 
 		function onUpdate(err: Error, numUpdated: any) {
 			if (err) {
 				subject.error(err);
 			} else {
+				datastore.persistence.compactDatafile();
 				subject.next(numUpdated);
 			}
 			subject.complete();

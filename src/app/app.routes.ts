@@ -3,6 +3,7 @@ import { HomePageComponent } from './routes/home-page/home-page.component';
 import { UsersResolver } from './resolvers/users.resolver';
 import { SaveUserPageComponent } from './routes/save-user-page/save-user-page.component';
 import { AddUserPageComponent } from './routes/add-user-page/add-user-page.component';
+import { CurrentUserPageComponent } from './routes/current-user-page/current-user-page.component';
 
 export const AppRoutes = [
 	{
@@ -20,6 +21,10 @@ export const AppRoutes = [
 		path: 'users-page',
 		component: UsersPageComponent,
 		resolve: { fetchUsersAction: UsersResolver }
+	},
+	{
+		path: 'current-user-page',
+		component: CurrentUserPageComponent
 	},
 	{ path: '**', component: HomePageComponent }
 ];

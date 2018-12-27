@@ -4,6 +4,7 @@ import { HomePageRouteModule } from './home-page/home-page.module';
 import { SaveUserPageRouteModule } from './save-user-page/save-user-page.module';
 import { RouteDataService } from './route-data-service.service';
 import { AddUserPageRouteModule } from './add-user-page/add-user-page.module';
+import { CurrentUserPageRouteModule } from './current-user-page/current-user-page.module';
 
 @NgModule({
 	declarations: [],
@@ -11,7 +12,8 @@ import { AddUserPageRouteModule } from './add-user-page/add-user-page.module';
 		HomePageRouteModule,
 		UsersPageRouteModule,
 		SaveUserPageRouteModule,
-		AddUserPageRouteModule
+		AddUserPageRouteModule,
+		CurrentUserPageRouteModule
 	],
 	providers: [RouteDataService],
 	bootstrap: []

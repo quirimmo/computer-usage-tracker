@@ -6,7 +6,7 @@ import { User } from './User';
 import { Subscription } from 'rxjs';
 
 export class UserCommunicator extends ElectronAppCommunicator {
-	static readonly RESOURCE: string = 'users';
+	static readonly RESOURCE: string = 'user';
 
 	constructor() {
 		super(UserCommunicator.RESOURCE);

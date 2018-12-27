@@ -1,4 +1,4 @@
-import { app, App, ipcMain, IpcMain } from 'electron';
+import { app, App, ipcMain, IpcMain, Menu } from 'electron';
 import { MainWindow } from '../views/MainWindow';
 import {
 	ELECTRON_APP_DEV_URL,
@@ -12,6 +12,25 @@ import { ElectronAppCommunicator } from '../models/ElectronAppCommunicator';
 import { UserCommunicator } from '../models/UserCommunicator';
 import { ActivityCommunicator } from '../models/ActivityCommunicator';
 import { AppCommunicator } from '../models/AppCommunicator';
+import { UsageCommunicator } from 'src-electron/models/usage/UsageCommunicator';
+
+const template: any = [
+	{
+		label: 'My App',
+		submenu: [
+			{
+				label: 'About my app',
+				selector: 'orderFrontStandardAboutPanel:',
+				click() {
+					console.log('CLICKED');
+				}
+			},
+			{
+				type: 'separator'
+			}
+		]
+	}
+];
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -34,6 +53,8 @@ export class ElectronApp {
 		this.ipcMain = ipcMain;
 		this.communicationsChannel = new Subject<any>();
 		this.communicators = new Map<string, ElectronAppCommunicator>();
+		const menu = Menu.buildFromTemplate(template);
+		Menu.setApplicationMenu(menu);
 	}
 
 	public static getInstance(): ElectronApp {
@@ -56,6 +77,7 @@ export class ElectronApp {
 		this.communicators.set('users', new UserCommunicator());
 		this.communicators.set('activities', new ActivityCommunicator());
 		this.communicators.set('app', new AppCommunicator());
+		this.communicators.set('usage', new UsageCommunicator());
 		this.ipcMain.on(REQUEST_CHANNEL, (event: any, arg: any) =>
 			this.communicationsChannel.next({
 				sender: event.sender,
