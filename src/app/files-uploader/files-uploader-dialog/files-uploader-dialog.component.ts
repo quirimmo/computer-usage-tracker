@@ -1,5 +1,6 @@
 import { Component, Inject, ViewChild, Input } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FileUploading } from '../file-uploading.model';
 
 export interface FilesUploaderDialogData {
 	test: string;
@@ -22,7 +23,8 @@ export class FilesUploaderDialogComponent {
 	@ViewChild('filesToUploadForm')
 	filesToUploadForm;
 
-	public files: Set<File> = new Set();
+	public files: Set<FileUploading> = new Set();
+	// public files: Set<File> = new Set();
 
 	constructor(
 		public dialogRef: MatDialogRef<FilesUploaderDialogComponent>,
@@ -39,13 +41,21 @@ export class FilesUploaderDialogComponent {
 			const reader = new FileReader();
 			reader.readAsDataURL(f);
 			reader.onload = (event: any) => {
-				console.log('FILE READ RESULT:', event.target.result);
-				this.files.add(f);
+				const uploadingFile: FileUploading = {
+					id: '1',
+					path: f.path,
+					size: f.size,
+					name: 'name',
+					type: 'image',
+					data: event.target.result
+				};
+				this.files.add(uploadingFile);
+				console.log('uploading file:', uploadingFile);
 			};
 		});
 	}
 
-	onRemoveFile(file: File) {
+	onRemoveFile(file: FileUploading) {
 		console.log('Removing file:', file);
 		this.files.delete(file);
 	}

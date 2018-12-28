@@ -66,10 +66,6 @@ export class SaveUserComponent implements OnInit {
 			: 'User Added Correctly';
 	}
 
-	onClick() {
-		console.log('clicked:', this.fileUpload1);
-	}
-
 	onSubmit() {
 		const _this: SaveUserComponent = this;
 		const subscription = this.onSaveUser
@@ -89,10 +85,6 @@ export class SaveUserComponent implements OnInit {
 			}
 			subscription.unsubscribe();
 		}
-	}
-
-	testOpen() {
-		this.filesUploaderTrigger.open();
 	}
 
 	cancel() {

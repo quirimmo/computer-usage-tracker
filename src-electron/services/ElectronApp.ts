@@ -73,7 +73,7 @@ export class ElectronApp {
 	}
 
 	public initCommunicationsChannel(): void {
-		this.communicators.set('users', new UserCommunicator());
+		this.communicators.set('user', new UserCommunicator());
 		this.communicators.set('app', new AppCommunicator());
 		this.communicators.set('usage', new UsageCommunicator());
 		this.ipcMain.on(REQUEST_CHANNEL, (event: any, arg: any) =>

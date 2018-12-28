@@ -10,21 +10,13 @@ export class UsersDAOService {
 	constructor(private electronProxyService: ElectronProxyService) {}
 
 	public fetchUsers(): Observable<User[]> {
-		const subject = new Subject<User[]>();
-		const subscription = this.electronProxyService
-			.sendMessageWithResponse({
-				resource: 'users',
-				data: {},
-				action: 'get',
-				filters: {},
-				message: 'fetch all the users'
-			})
-			.subscribe((users: User[]) => {
-				subject.next(users);
-				subject.complete();
-				subscription.unsubscribe();
-			});
-		return subject.asObservable();
+		return this.electronProxyService.sendMessageWithResponse({
+			resource: 'user',
+			data: {},
+			action: 'get',
+			filters: {},
+			message: 'fetch all the users'
+		});
 	}
 
 	public addUser(user: User): Observable<User[]> {

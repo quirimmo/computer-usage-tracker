@@ -1,6 +1,5 @@
 <button mat-button routerLink="/home-page">Home</button>
 <button mat-button [matMenuTriggerFor]="users">Users</button>
-<button mat-button routerLink="/current-user-page">Current User</button>
 <mat-menu #users="matMenu">
 	<button mat-menu-item (click)="navigateToAddUserPage()">Add User</button>
 	<button mat-menu-item routerLink="/users-page">Users List</button>
