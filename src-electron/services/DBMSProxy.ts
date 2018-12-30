@@ -87,6 +87,7 @@ export class DBMSProxy {
 			if (err) {
 				subject.error(err);
 			} else {
+				datastore.persistence.compactDatafile();
 				subject.next(numRemoved);
 			}
 			subject.complete();

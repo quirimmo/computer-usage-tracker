@@ -51,33 +51,6 @@ export class UserActions {
 		return this.usersDAOService.fetchUsers();
 	}
 
-	// ADD
-	// ==============================
-
-	public dispatchAddUserThunk(user: User): Observable<UserAction> {
-		return this.addUserThunk(user)(this.ngRedux.dispatch);
-	}
-
-	private addUserThunk(
-		user: User
-	): (disp: Dispatch<AnyAction>) => Observable<UserAction> {
-		return (disp: Dispatch<AnyAction>) =>
-			this.addUser(user).pipe(
-				map((users: User[]) => disp(this.addUserFulfilled(users)))
-			);
-	}
-
-	private addUserFulfilled(users: User[]): UserAction {
-		return {
-			type: UserActions.ADD_USER,
-			users
-		};
-	}
-
-	private addUser(user: User): Observable<User[]> {
-		return this.usersDAOService.addUser(user);
-	}
-
 	// REMOVE
 	// ==============================
 
@@ -103,6 +76,33 @@ export class UserActions {
 
 	private removeUser(user: User): Observable<number> {
 		return this.usersDAOService.removeUser(user);
+	}
+
+	// ADD
+	// ==============================
+
+	public dispatchAddUserThunk(user: User): Observable<UserAction> {
+		return this.addUserThunk(user)(this.ngRedux.dispatch);
+	}
+
+	private addUserThunk(
+		user: User
+	): (disp: Dispatch<AnyAction>) => Observable<UserAction> {
+		return (disp: Dispatch<AnyAction>) =>
+			this.addUser(user).pipe(
+				map((users: User[]) => disp(this.addUserFulfilled(users)))
+			);
+	}
+
+	private addUserFulfilled(users: User[]): UserAction {
+		return {
+			type: UserActions.ADD_USER,
+			users
+		};
+	}
+
+	private addUser(user: User): Observable<User[]> {
+		return this.usersDAOService.addUser(user);
 	}
 
 	// UPDATE

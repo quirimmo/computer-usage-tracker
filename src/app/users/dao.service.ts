@@ -19,6 +19,18 @@ export class UsersDAOService {
 		});
 	}
 
+	public removeUser(user: User): Observable<number> {
+		return this.electronProxyService.sendMessageWithResponse({
+			resource: 'user',
+			data: {
+				user
+			},
+			action: 'delete',
+			filters: {},
+			message: 'delete the given user'
+		});
+	}
+
 	public addUser(user: User): Observable<User[]> {
 		const subject = new Subject<User[]>();
 		const subscription = this.electronProxyService
@@ -54,26 +66,6 @@ export class UsersDAOService {
 			})
 			.subscribe((updatedUsers: number) => {
 				subject.next(updatedUsers);
-				subject.complete();
-				subscription.unsubscribe();
-			});
-		return subject.asObservable();
-	}
-
-	public removeUser(user: User): Observable<number> {
-		const subject = new Subject<number>();
-		const subscription = this.electronProxyService
-			.sendMessageWithResponse({
-				resource: 'users',
-				data: {
-					user
-				},
-				action: 'delete',
-				filters: {},
-				message: 'delete the given user'
-			})
-			.subscribe((removedUsers: number) => {
-				subject.next(removedUsers);
 				subject.complete();
 				subscription.unsubscribe();
 			});

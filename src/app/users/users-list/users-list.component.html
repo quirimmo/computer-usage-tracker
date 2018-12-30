@@ -1,13 +1,11 @@
-<mat-list role="list">
-  <ng-container *ngFor="let user of users; trackBy:user?.id">
-    <mat-list-item role="listitem">FIRSTNAME: {{user.firstName}}</mat-list-item>
-    <mat-list-item>
-      <button mat-button>
-        <mat-icon (click)="deleteUser(user)">delete_forever</mat-icon>
-      </button>
-      <button mat-button>
-        <mat-icon (click)="updateUser(user)">update</mat-icon>
-      </button>
-    </mat-list-item>
-  </ng-container>
-</mat-list>
+<div class="row m-0">
+	<ng-container *ngFor="let user of users; trackBy: user?.id">
+		<div class="m-0 p-0 col-xl-3 col-lg-4 col-sm-6">
+			<users-list-item
+				[user]="user"
+				(onDeleteUser)="deleteUser($event)"
+				(onUpdateUser)="updateUser($event)"
+			></users-list-item>
+		</div>
+	</ng-container>
+</div>

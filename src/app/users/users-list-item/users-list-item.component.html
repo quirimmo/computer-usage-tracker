@@ -1,0 +1,23 @@
+<div class="m-1 users-list-item">
+	<mat-grid-list cols="3" rows="2" rowHeight="74px">
+		<mat-grid-tile [colspan]="1" [rowspan]="2">
+			<img class="avatar" [src]="LOGO" />
+		</mat-grid-tile>
+		<!-- <div></div>
+				style="position: absolute; background: red; width: 100%; height: 100%;opacity: 0.5;"
+			></div -->
+		<mat-grid-tile [colspan]="2" [rowspan]="1">
+			<div class="firstname">{{ user.firstName }}</div>
+		</mat-grid-tile>
+		<mat-grid-tile [colspan]="2" [rowspan]="1">
+			<div class="actions">
+				<button mat-button matTooltip="Delete user {{ user.firstName }}">
+					<mat-icon (click)="deleteUser(user)">delete_forever</mat-icon>
+				</button>
+				<button mat-button matTooltip="Update user {{ user.firstName }}">
+					<mat-icon (click)="updateUser(user)">update</mat-icon>
+				</button>
+			</div>
+		</mat-grid-tile>
+	</mat-grid-list>
+</div>

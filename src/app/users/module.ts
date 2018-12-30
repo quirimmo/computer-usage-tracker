@@ -10,16 +10,19 @@ import {
 	MatListModule,
 	MatIconModule,
 	MatInputModule,
-	MatFormFieldModule
+	MatFormFieldModule,
+	MatTooltipModule,
+	MatGridListModule
 } from '@angular/material';
 import { ConfirmCancelDialogModule } from '../utils/confirm-cancel-dialog/confirm-cancel-dialog.module';
 import { SaveUserComponent } from './save-user/save-user.component';
 import { FilesUploaderModule } from '../files-uploader/files-uploader.module';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { UsersListItemComponent } from './users-list-item/users-list-item.component';
 
 @NgModule({
-	declarations: [UsersListComponent, SaveUserComponent],
-	exports: [UsersListComponent, SaveUserComponent],
+	declarations: [UsersListComponent, SaveUserComponent, UsersListItemComponent],
+	exports: [UsersListComponent, SaveUserComponent, UsersListItemComponent],
 	imports: [
 		ElectronProxyModule,
 		CommonModule,
@@ -31,7 +34,9 @@ import { AngularFileUploaderModule } from 'angular-file-uploader';
 		FormsModule,
 		ConfirmCancelDialogModule,
 		FilesUploaderModule,
-		AngularFileUploaderModule
+		AngularFileUploaderModule,
+		MatTooltipModule,
+		MatGridListModule
 	],
 	providers: [UserActions, UsersDAOService]
 })
