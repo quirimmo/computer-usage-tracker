@@ -1,4 +1,4 @@
-import { app, App, ipcMain, IpcMain, Menu } from 'electron';
+import { app, App, ipcMain, IpcMain } from 'electron';
 import { MainWindow } from '../views/MainWindow';
 import {
 	ELECTRON_APP_DEV_URL,
@@ -12,24 +12,7 @@ import { ElectronAppCommunicator } from '../communicators/ElectronAppCommunicato
 import { UserCommunicator } from '../communicators/UserCommunicator';
 import { AppCommunicator } from '../communicators/AppCommunicator';
 import { UsageCommunicator } from '../communicators/UsageCommunicator';
-
-const template: any = [
-	{
-		label: 'My App',
-		submenu: [
-			{
-				label: 'About my app',
-				selector: 'orderFrontStandardAboutPanel:',
-				click() {
-					console.log('CLICKED');
-				}
-			},
-			{
-				type: 'separator'
-			}
-		]
-	}
-];
+import ApplicationMenu from '../views/ApplicationMenu';
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -40,6 +23,7 @@ export class ElectronApp {
 	public communicationsChannel: Subject<ICommunicationsChannelMessage>;
 	public communicators: Map<string, ElectronAppCommunicator>;
 	public isRendered = false;
+	public appMenu: ApplicationMenu;
 
 	private constructor() {
 		this.isDevMode = process.argv[2].split('--')[1] === 'dev';
@@ -52,8 +36,7 @@ export class ElectronApp {
 		this.ipcMain = ipcMain;
 		this.communicationsChannel = new Subject<any>();
 		this.communicators = new Map<string, ElectronAppCommunicator>();
-		const menu = Menu.buildFromTemplate(template);
-		Menu.setApplicationMenu(menu);
+		this.appMenu = new ApplicationMenu();
 	}
 
 	public static getInstance(): ElectronApp {
