@@ -11,7 +11,7 @@ import { UsersDAOService } from './users/dao.service';
 @Component({
 	selector: 'app-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+	styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
 	title = 'app';
@@ -28,6 +28,19 @@ export class AppComponent implements OnInit {
 		private electronProxy: ElectronProxyService,
 		private ngRedux: NgRedux<StoreModel>
 	) {
+		// this.electronProxy.listenMessages();
+		// if (this._electronService.isElectronApp) {
+		// 	this._electronService.ipcRenderer.on(
+		// 		'electron-app-channel-request',
+		// 		(event, arg) => {
+		// 			console.log(
+		// 				'RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP',
+		// 				event,
+		// 				arg
+		// 			);
+		// 		}
+		// 	);
+		// }
 		// const sub = this.actions.dispatchFetchUsersThunk().subscribe(() => {
 		// 	sub.unsubscribe();
 		// });
@@ -40,14 +53,6 @@ export class AppComponent implements OnInit {
 		// })
 		// .unsubscribe();
 		// this.users$.subscribe(val => console.log('USERS AFTER FETCH:', val));
-		// if (this._electronService.isElectronApp) {
-		// 	this._electronService.ipcRenderer.on('pong', (event, arg) => {
-		// 		console.log(
-		// 			'RECEIVED RESPONSE FROM ELECTRON TO ANGULAR APP',
-		// 			event,
-		// 			arg
-		// 		);
-		// 	});
 		// 	this._electronService.ipcRenderer.on('ping-pong', (event, arg) => {
 		// 		console.log('RECEIVED DATA FROM ELECTRON TO ANGULAR APP', arg);
 		// 	});

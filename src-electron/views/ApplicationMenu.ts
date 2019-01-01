@@ -1,5 +1,7 @@
 import ApplicationMenuItem from './ApplicationMenuItem';
 import { Menu } from 'electron';
+import { ElectronApp } from '../services/ElectronApp';
+import { ElectronChannelMessage } from '../models/electron-channel-message/ElectronChannelMessage';
 
 export default class ApplicationMenu {
 	public items: Map<string, ApplicationMenuItem> = new Map();
@@ -11,21 +13,32 @@ export default class ApplicationMenu {
 
 	adddMenuItems(): void {
 		const home: ApplicationMenuItem = new ApplicationMenuItem('Home', () =>
-			console.log('Home Clicked')
+			this.sendNavigationMessage('home-page')
 		);
 		const users: ApplicationMenuItem = new ApplicationMenuItem('Users');
 		const addUser: ApplicationMenuItem = new ApplicationMenuItem(
 			'Add User',
-			() => console.log('Add User Clicked')
+			() => this.sendNavigationMessage('add-user-page')
 		);
 		const usersList: ApplicationMenuItem = new ApplicationMenuItem(
 			'Users List',
-			() => console.log('Users List Clicked')
+			() => this.sendNavigationMessage('users-page')
 		);
 		users.addSubmenuItem(addUser);
 		users.addSubmenuItem(usersList);
 		this.items.set('home', home);
 		this.items.set('users', users);
+	}
+
+	sendNavigationMessage(route: string): void {
+		const message: ElectronChannelMessage = {
+			resource: 'navigation',
+			action: 'put',
+			filters: {},
+			data: { route },
+			message: `Navigate to ${route}`
+		};
+		ElectronApp.getInstance().sendMessageToApp(message);
 	}
 
 	getTemplate(): Menu {

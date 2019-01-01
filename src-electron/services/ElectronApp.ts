@@ -13,6 +13,7 @@ import { UserCommunicator } from '../communicators/UserCommunicator';
 import { AppCommunicator } from '../communicators/AppCommunicator';
 import { UsageCommunicator } from '../communicators/UsageCommunicator';
 import ApplicationMenu from '../views/ApplicationMenu';
+import { ElectronChannelMessage } from '../models/electron-channel-message/ElectronChannelMessage';
 
 export class ElectronApp {
 	private static instance: ElectronApp = null;
@@ -71,8 +72,8 @@ export class ElectronApp {
 		);
 	}
 
-	public sendMessageToApp(payload: any): void {
-		this.mainWindow.browserWindow.webContents.send(REQUEST_CHANNEL, payload);
+	public sendMessageToApp(message: ElectronChannelMessage): void {
+		this.mainWindow.browserWindow.webContents.send(REQUEST_CHANNEL, message);
 	}
 
 	public sendResponseToApp(payload: any): void {

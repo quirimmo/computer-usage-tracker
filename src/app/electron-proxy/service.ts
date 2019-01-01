@@ -4,6 +4,7 @@ import { ElectronChannelMessage } from './ElectronChannelMessage';
 import { IpcRenderer } from 'electron';
 import { Observable, Subject, of } from 'rxjs';
 import { REQUEST_CHANNEL, RESPONSE_CHANNEL } from './constants';
+import { ElectronCommunicatorService } from './ElectronCommunicatorService';
 
 @Injectable({
 	providedIn: 'root'
@@ -12,9 +13,13 @@ export class ElectronProxyService {
 	public renderer: IpcRenderer;
 	public isElectronApp: boolean;
 
-	constructor(private electronServiceInstance: ElectronService) {
+	constructor(
+		private electronServiceInstance: ElectronService,
+		private electronCommunicatorService: ElectronCommunicatorService
+	) {
 		this.renderer = this.electronServiceInstance.ipcRenderer;
 		this.isElectronApp = this.electronServiceInstance.isElectronApp;
+		this.listenForMessages();
 	}
 
 	public async testing() {
@@ -26,6 +31,14 @@ export class ElectronProxyService {
 			message: 'fetch all the users'
 		}).toPromise();
 		return sub;
+	}
+
+	public listenForMessages(): void {
+		if (this.isElectronApp) {
+			this.renderer.on('electron-app-channel-request', (event, msg) => {
+				this.electronCommunicatorService.parseMessage(msg);
+			});
+		}
 	}
 
 	public sendMessage(message: ElectronChannelMessage): void {
