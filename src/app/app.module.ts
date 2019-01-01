@@ -21,6 +21,7 @@ import { FilesUploaderModule } from './files-uploader/files-uploader.module';
 import { AngularFileUploaderModule } from 'angular-file-uploader';
 import { TimerModule } from './timer/timer.module';
 import { CurrentUsageModule } from './current-usage/current-usage.module';
+import { AppLoaderModule } from './app-loader/app-loader.module';
 
 @NgModule({
 	declarations: [AppComponent],
@@ -45,7 +46,8 @@ import { CurrentUsageModule } from './current-usage/current-usage.module';
 		FilesUploaderModule,
 		AngularFileUploaderModule,
 		CurrentUsageModule,
-		TimerModule
+		TimerModule,
+		AppLoaderModule
 	],
 	providers: [],
 	bootstrap: [AppComponent]
