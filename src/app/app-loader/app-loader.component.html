@@ -1,5 +1,6 @@
 <div
 	class="app-loader align-items-center justify-content-center align-self-center d-flex h-100"
+	*ngIf="(isLoading$ | async)"
 >
 	<img [src]="image" />
 </div>
